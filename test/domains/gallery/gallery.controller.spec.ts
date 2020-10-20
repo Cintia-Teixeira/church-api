@@ -32,6 +32,14 @@ describe('GalleryController', () => {
 
             expect(await galleryController.uploadImage(img)).toStrictEqual(result);
         });
-        
+
+        it('should upload a new image with id 3', async () => {
+            const result = {
+                id: 3,
+                ...img
+            };
+
+            expect(await galleryController.uploadImage(img)).toStrictEqual(result);           
+        });     
     });
 })
