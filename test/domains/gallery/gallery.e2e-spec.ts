@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import * as request from 'supertest';
 import { config } from 'dotenv';
+import { getConnection } from 'typeorm';
 
 import { GalleryModule } from '../../../src/domains/gallery/gallery.module';
 import { Image } from '../../../src/common/models/image.entity'
@@ -12,6 +13,8 @@ config();
 
 describe('Gallery', () => {
     let app: INestApplication;
+    let connection;
+    jest.setTimeout(30000);
   
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
@@ -33,6 +36,13 @@ describe('Gallery', () => {
 
         app = moduleRef.createNestApplication();
         app.init();
+        connection = getConnection();
+        await connection.createQueryRunner().clearTable('images');
+        const defaultImage = new Image();
+        defaultImage.path = 'test/uploads/image.png';
+        await connection.createQueryBuilder()
+        .insert().into(Image).values([defaultImage])
+        .execute();
     });
 
     describe('/POST gallery', () => {
