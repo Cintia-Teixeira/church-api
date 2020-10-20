@@ -1,11 +1,21 @@
 import { Injectable } from '@nestjs/common';
+import { Connection, Repository } from 'typeorm';
+
+import { Image } from './../../common/models/image.entity';
 
 @Injectable()
 export class GalleryService {
+    private imageRepository: Repository<Image>;
 
-    constructor() { }
+    constructor(connection: Connection) {
+        this.imageRepository = connection.getRepository(Image);
+    }
 
-    uploadImage(img) {}
+    async uploadImage(img) {
+        const { raw: { insertId } } = await this.imageRepository.insert(img);
+        return {
+            id: insertId,
+            ...img
+        }
+    }
 }
-
-

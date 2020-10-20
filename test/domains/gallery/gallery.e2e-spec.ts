@@ -6,6 +6,7 @@ import * as request from 'supertest';
 import { config } from 'dotenv';
 
 import { GalleryModule } from '../../../src/domains/gallery/gallery.module';
+import { Image } from '../../../src/common/models/image.entity'
 
 config();
 

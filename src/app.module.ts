@@ -6,6 +6,7 @@ import { config } from 'dotenv';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { GalleryModule } from './domains/gallery/gallery.module';
+import { Image } from './common/models/image.entity'
 
 
 config();
