@@ -40,13 +40,20 @@ describe('Gallery', () => {
     });
 
     describe('/POST gallery', () => {
-        it('should upload a photo', async () => {
+        it('should upload an image', async () => {
             return await request(app.getHttpServer())
                 .post('/gallery/upload')
                 .send(img)
                 .expect(201);
         });
-        console.log('test');
+
+        it('should upload an image using file upload from nestjs ', async () => {
+            return await request(app.getHttpServer())
+                .post('/gallery/upload')
+                .set('Content-Type', 'multipart/form-data')
+                .attach('img', './test/uploads/image.jpg')
+                .expect(201);
+        });
     });
 
     afterAll(async () => {
