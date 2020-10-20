@@ -12,11 +12,7 @@ config();
 
 describe('Gallery', () => {
     let app: INestApplication;
-    let img = {
-        id: 1,
-        path: 'test/uploads/image.png'
-    };
-
+  
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
             imports: [
@@ -40,13 +36,6 @@ describe('Gallery', () => {
     });
 
     describe('/POST gallery', () => {
-        it('should upload an image', async () => {
-            return await request(app.getHttpServer())
-                .post('/gallery/upload')
-                .send(img)
-                .expect(201);
-        });
-
         it('should upload an image using file upload from nestjs ', async () => {
             return await request(app.getHttpServer())
                 .post('/gallery/upload')

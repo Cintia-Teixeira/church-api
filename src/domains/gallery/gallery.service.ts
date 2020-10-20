@@ -11,11 +11,11 @@ export class GalleryService {
         this.imageRepository = connection.getRepository(Image);
     }
 
-    async uploadImage(img) {
+    async uploadImage(img): Promise<Image> {
         const { raw: { insertId } } = await this.imageRepository.insert(img);
         return {
             id: insertId,
-            ...img
+            ...img.name
         }
     }
 }
