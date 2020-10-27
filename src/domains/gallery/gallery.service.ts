@@ -15,7 +15,7 @@ export class GalleryService {
         const { raw: { insertId } } = await this.imageRepository.insert(img);
         return {
             id: insertId,
-            ...img.name
+            ...img
         }
     }
 }
