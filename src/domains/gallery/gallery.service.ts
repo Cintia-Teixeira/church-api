@@ -18,4 +18,8 @@ export class GalleryService {
             ...img
         }
     }
+
+    displayImages (): Promise<Image[]> {
+        return this.imageRepository.find();
+    }
 }

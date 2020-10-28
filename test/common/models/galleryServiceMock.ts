@@ -1,3 +1,5 @@
+import { Image } from '../../../src/common/models/image.entity';
+
 export class GalleryServiceMock {
     private images = [
         {
@@ -10,8 +12,6 @@ export class GalleryServiceMock {
     constructor() { }
 
     uploadImage(img) {
-        console.log(img);
-        
         const toUpload = {
             id: this.indexToInsert++,
             ...img
@@ -19,5 +19,11 @@ export class GalleryServiceMock {
 
         this.images.push(toUpload);
         return toUpload;
+    }
+
+    displayImages(): Image[] {
+        console.log(this.images);
+        
+        return this.images
     }
 }
