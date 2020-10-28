@@ -1,7 +1,8 @@
-import { GalleryService } from './../../../src/domains/gallery/gallery.service';
 import { Test } from '@nestjs/testing';
+import { GalleryService } from './../../../src/domains/gallery/gallery.service';
 import { GalleryController } from './../../../src/domains/gallery/gallery.controller';
 import { GalleryServiceMock } from '../../common/models/galleryServiceMock';
+import { Image } from './../../../src/common/models/image.entity';
 
 describe('GalleryController', () => {
     let galleryController: GalleryController;
@@ -15,8 +16,8 @@ describe('GalleryController', () => {
             controllers: [GalleryController],
             providers: [GalleryService]
         })
-        .overrideProvider(GalleryService)
-        .useClass(GalleryServiceMock)
+            .overrideProvider(GalleryService)
+            .useClass(GalleryServiceMock)
             .compile();
 
         galleryController = moduleRef.get<GalleryController>(GalleryController);
@@ -39,7 +40,29 @@ describe('GalleryController', () => {
                 ...img
             };
 
-            expect(await galleryController.uploadImage(img)).toStrictEqual(result);           
-        });     
+            expect(await galleryController.uploadImage(img)).toStrictEqual(result);
+        });
     });
+
+    describe('displayImages', () => {
+        it('should display all the images', async () => {
+            const result: Image[] = [
+                {
+                    id: 1,
+                    path: 'test/uploads/image.png'
+                },
+                {
+                    id: 2,
+                    ...img
+                },
+                {
+                    id: 3,
+                    ...img
+                }
+            ];
+
+            expect(await galleryController.displayImages()).toStrictEqual(result);
+
+        })
+    })
 })
