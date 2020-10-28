@@ -55,6 +55,14 @@ describe('Gallery', () => {
         });
     });
 
+    describe('/GET gallery', () => {
+        it('should display all the images', async () => {
+            return await request(app.getHttpServer())
+            .get('/gallery')
+            .expect(200);
+        })
+    })
+
     afterAll(async () => {
         await app.close();
     });
