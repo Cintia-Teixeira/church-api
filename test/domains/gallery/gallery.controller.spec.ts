@@ -62,7 +62,16 @@ describe('GalleryController', () => {
             ];
 
             expect(await galleryController.displayImages()).toStrictEqual(result);
+        });
+    });
 
-        })
-    })
+    describe('remove', () => {
+        it('should remove an image by ID', async () => {
+          const id = 3;
+          let result: void
+    
+          expect(await galleryController.remove(id)).toBe(result);
+        });
+      });
+    
 })
