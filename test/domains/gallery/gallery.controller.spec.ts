@@ -45,7 +45,7 @@ describe('GalleryController', () => {
     });
 
     describe('displayImages', () => {
-        it('should display all the images', async () => {
+        it('should display all images', async () => {
             const result: Image[] = [
                 {
                     id: 1,
