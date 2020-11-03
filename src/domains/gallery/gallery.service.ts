@@ -22,4 +22,6 @@ export class GalleryService {
     displayImages (): Promise<Image[]> {
         return this.imageRepository.find();
     }
+
+    remove(id) {}
 }

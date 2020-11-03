@@ -1,5 +1,5 @@
 import { storage } from './storageOptions';
-import { Controller, Post, UseInterceptors, UploadedFile, Get } from '@nestjs/common';
+import { Controller, Post, UseInterceptors, UploadedFile, Get, Delete, Param } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 import { GalleryService } from './gallery.service';
@@ -18,7 +18,12 @@ export class GalleryController {
 
     @Get()
     displayImages(): Promise<Image[]> {
-        return this.galleryService.displayImages()
+        return this.galleryService.displayImages();
+    }
+
+    @Delete(':id')
+    remove(@Param('id') id: number) {
+        return this.galleryService.remove(id);
     }
 
 }

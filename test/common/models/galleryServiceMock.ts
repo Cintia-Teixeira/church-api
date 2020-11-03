@@ -22,8 +22,12 @@ export class GalleryServiceMock {
     }
 
     displayImages(): Image[] {
-        console.log(this.images);
-        
         return this.images
     }
+
+    remove(id: number) {
+        const filtered = this.images.filter(image => image.id != id);
+        this.images = filtered;
+    }
+
 }
