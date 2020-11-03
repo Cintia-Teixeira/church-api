@@ -60,8 +60,16 @@ describe('Gallery', () => {
             return await request(app.getHttpServer())
             .get('/gallery')
             .expect(200);
-        })
-    })
+        });
+    });
+
+    describe('/DELETE gallery', () => {
+        it('should remove an image', async () => {
+            return await request(app.getHttpServer())
+            .delete('/gallery/2')
+            .expect(200);
+        });
+    });
 
     afterAll(async () => {
         await app.close();

@@ -23,5 +23,9 @@ export class GalleryService {
         return this.imageRepository.find();
     }
 
-    remove(id) {}
+    async remove(id: number) {
+        const deleted = await this.imageRepository.delete({ id });
+        return deleted.affected;
+      }
+    
 }
