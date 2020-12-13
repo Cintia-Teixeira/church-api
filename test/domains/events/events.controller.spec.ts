@@ -1,8 +1,13 @@
+import { EventsServiceMock } from './../../common/models/eventsServiceMock';
+import { Test } from '@nestjs/testing';
+
+import { EventsService } from './../../../src/domains/events/events.service';
 import { EventsController } from './../../../src/domains/events/events.controller';
 
 
 describe('EventsController', () => {
     let eventsController: EventsController;
+    let eventsService: EventsService;
     let event = {
         date: '05/05/2018',
         name: 'III Jornada Teológica',
@@ -10,8 +15,17 @@ describe('EventsController', () => {
         description: 'Jornada'
     }
 
-    beforeAll(() => {
-        eventsController = new EventsController();
+    beforeAll( async () => {
+      const moduleRef = await Test.createTestingModule({
+          controllers: [EventsController],
+          providers: [EventsService]
+      })
+      .overrideProvider(EventsService)
+      .useClass(EventsServiceMock)
+      .compile();
+
+      eventsService = moduleRef.get<EventsService>(EventsService);
+      eventsController = moduleRef.get<EventsController>(EventsController);
     });
 
     describe('findAll', () => {

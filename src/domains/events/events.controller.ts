@@ -1,20 +1,13 @@
+import { EventsService } from './events.service';
 import { Controller, Get } from "@nestjs/common";
 
 @Controller()
 export class EventsController {
 
-    private events = [
-        {
-            id: 1,
-            date: '05/05/2018',
-            name: 'III Jornada Teológica',
-            time: '9h',
-            description: 'Jornada'
-        }
-    ]
+    constructor(private eventsService: EventsService) { }
 
     @Get()
     public findAll() {
-        return this.events;
+        return this.eventsService.findAll();
     }
 }
