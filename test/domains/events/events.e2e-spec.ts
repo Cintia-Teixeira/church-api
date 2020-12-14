@@ -11,6 +11,12 @@ config();
 
 describe('Events', () => {
     let app: INestApplication;
+    let event = {
+        date: new Date(),
+        name: 'III Jornada Teológica',
+        time: new Date(),
+        description: 'Jornada'
+    }
 
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
@@ -44,6 +50,18 @@ describe('Events', () => {
                 });
         });
     });
+
+    describe('/POST eventos', () => {
+        it('should create a new event', async () => {
+            await request(app.getHttpServer())
+                .post('/eventos')
+                .send(event)
+                .expect(201)
+                .expect(res => {
+                    console.log(res.body);
+                });
+        })
+    })
 
     afterAll(async () => {
         await app.close();
