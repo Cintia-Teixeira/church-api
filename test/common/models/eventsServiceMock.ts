@@ -13,7 +13,18 @@ export class EventsServiceMock {
         }
     ]
 
+    private indexToInsert = 2;
+
     public findAll() {
         return this.events;
+    }
+
+    public create(event) {
+        const toCreate = {
+            id: this.indexToInsert++,
+            ...event
+        };
+        this.events.push(event);
+        return toCreate;
     }
 }

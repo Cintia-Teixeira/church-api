@@ -15,4 +15,8 @@ export class EventsService {
     public findAll() {
         return this.eventsRepository.find()
     }
+
+    public create(event) {
+        return 'criado';
+    }
 }

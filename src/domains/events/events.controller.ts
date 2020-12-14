@@ -10,4 +10,9 @@ export class EventsController {
     public findAll() {
         return this.eventsService.findAll();
     }
+
+    @Post()
+    public create(@Body() event) {
+        return this.eventsService.create(event);
+    }
 }
