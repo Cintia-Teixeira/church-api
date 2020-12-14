@@ -1,7 +1,7 @@
 import { EventsService } from './events.service';
-import { Controller, Get } from "@nestjs/common";
+import { Body, Controller, Get, Post } from "@nestjs/common";
 
-@Controller()
+@Controller('eventos')
 export class EventsController {
 
     constructor(private eventsService: EventsService) { }
