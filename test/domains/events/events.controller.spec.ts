@@ -15,17 +15,17 @@ describe('EventsController', () => {
         description: 'Jornada'
     }
 
-    beforeAll( async () => {
-      const moduleRef = await Test.createTestingModule({
-          controllers: [EventsController],
-          providers: [EventsService]
-      })
-      .overrideProvider(EventsService)
-      .useClass(EventsServiceMock)
-      .compile();
+    beforeAll(async () => {
+        const moduleRef = await Test.createTestingModule({
+            controllers: [EventsController],
+            providers: [EventsService]
+        })
+            .overrideProvider(EventsService)
+            .useClass(EventsServiceMock)
+            .compile();
 
-      eventsService = moduleRef.get<EventsService>(EventsService);
-      eventsController = moduleRef.get<EventsController>(EventsController);
+        eventsService = moduleRef.get<EventsService>(EventsService);
+        eventsController = moduleRef.get<EventsController>(EventsController);
     });
 
     describe('findAll', () => {
@@ -38,4 +38,15 @@ describe('EventsController', () => {
             expect(await eventsController.findAll()).toStrictEqual(result);
         });
     });
+
+    describe('create', () => {
+        it('should create an event', async () => {
+            const result = {
+                id: 2,
+                ...event
+            };
+
+            expect(await eventsController.create(event)).toStrictEqual(result);
+        })
+    })
 })
