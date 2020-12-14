@@ -1,19 +1,18 @@
+import { Repository, Connection } from 'typeorm';
 import { Injectable } from '@nestjs/common';
+
+import { Event } from './../../../src/common/models/event.entity';
 
 @Injectable()
 export class EventsService {
 
-    private events = [
-        {
-            id: 1,
-            date: '05/05/2018',
-            name: 'III Jornada Teológica',
-            time: '9h',
-            description: 'Jornada'
-        }
-    ]
+    private eventsRepository: Repository<Event>
+
+    constructor(connection: Connection) {
+        this.eventsRepository = connection.getRepository(Event);
+    }
 
     public findAll() {
-        return this.events;
+        return this.eventsRepository.find()
     }
 }
