@@ -12,9 +12,8 @@ config();
 describe('Events', () => {
     let app: INestApplication;
     let event = {
-        date: new Date(),
+        date: new Date('2021-01-13 08:00:00'),
         name: 'III Jornada Teológica',
-        time: new Date(),
         description: 'Jornada'
     }
 
