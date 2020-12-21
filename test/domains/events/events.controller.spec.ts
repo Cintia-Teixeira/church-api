@@ -47,6 +47,14 @@ describe('EventsController', () => {
             };
 
             expect(await eventsController.create(event)).toStrictEqual(result);
+        });
+    });
+
+    describe('update', () => {
+        it('should update an existing event using its ID', async () => {
+            let result: void
+            
+            expect(await eventsController.update(1, event)).toBe(result);
         })
     })
 })
