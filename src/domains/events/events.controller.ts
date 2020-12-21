@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, NotFoundException, Param, Post, Put } from '@nestjs/common';
 
 import { EventsService } from './events.service';
 import { Event } from '../../common/models/event.entity';
@@ -19,7 +19,13 @@ export class EventsController {
     }
 
     @Put(':id')
-    public update(@Param('id') id: number, @Body() event: Event) {
-        return this.eventsService.update(id, event);
+    public async update(@Param('id') id: number, @Body() event: Event) {
+        const updated = await this.eventsService.update(id, event);
+        if (!updated) {
+            throw new NotFoundException({
+                status: HttpStatus.NOT_FOUND,
+                message: 'Event not found.'
+            });
+        }
     }
 }
