@@ -17,6 +17,11 @@ describe('Events', () => {
         description: 'Jornada'
     }
 
+    let event2 = {
+        date: new Date('2021-05-10 11:00:00'),
+        name: 'IV Jornada Teológica',
+        description: 'Jornada'
+    }
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
             imports: [
@@ -59,8 +64,17 @@ describe('Events', () => {
                 .expect(res => {
                     console.log(res.body);
                 });
-        })
-    })
+        });
+    });
+
+    describe('/PUT eventos', () => {
+        it('should update an existing event by its ID', async () => {
+            await request(app.getHttpServer())
+                .put('/eventos/1')
+                .send(event2)
+                .expect(200);
+        });
+    });
 
     afterAll(async () => {
         await app.close();
