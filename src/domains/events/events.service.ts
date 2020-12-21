@@ -16,11 +16,15 @@ export class EventsService {
         return this.eventsRepository.find()
     }
 
-    public async create(event) {
+    public async create(event: Event) {
         const { raw: { insertId } } = await this.eventsRepository.insert(event);
         return {
             id: insertId,
             ...event
         }
+    }
+
+    public async update(id: number, event: Event) {
+        
     }
 }

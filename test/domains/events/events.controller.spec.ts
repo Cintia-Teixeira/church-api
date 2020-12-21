@@ -3,15 +3,21 @@ import { Test } from '@nestjs/testing';
 
 import { EventsService } from './../../../src/domains/events/events.service';
 import { EventsController } from './../../../src/domains/events/events.controller';
+import { Event } from '../../../src/common/models/event.entity';
 
 
 describe('EventsController', () => {
     let eventsController: EventsController;
     let eventsService: EventsService;
     let event = {
-        date: '05/05/2018',
+        date: new Date('2021-01-13 08:00:00'),
         name: 'III Jornada Teológica',
-        time: '9h',
+        description: 'Jornada'
+    }
+
+    let event2 = {
+        date: new Date('2021-05-01 10:00:00'),
+        name: 'IV Jornada Teológica',
         description: 'Jornada'
     }
 
@@ -46,7 +52,7 @@ describe('EventsController', () => {
                 ...event
             };
 
-            expect(await eventsController.create(event)).toStrictEqual(result);
+            expect(await eventsController.create(event as Event)).toStrictEqual(result);
         });
     });
 
@@ -54,7 +60,7 @@ describe('EventsController', () => {
         it('should update an existing event using its ID', async () => {
             let result: void
             
-            expect(await eventsController.update(1, event)).toBe(result);
+            expect(await eventsController.update(1, event2 as Event)).toBe(result);
         })
     })
 })

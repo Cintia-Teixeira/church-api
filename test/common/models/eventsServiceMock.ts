@@ -6,9 +6,8 @@ export class EventsServiceMock {
     private events = [
         {
             id: 1,
-            date: '05/05/2018',
+            date: new Date('2021-01-13 08:00:00'),
             name: 'III Jornada Teológica',
-            time: '9h',
             description: 'Jornada'
         }
     ]
@@ -24,7 +23,15 @@ export class EventsServiceMock {
             id: this.indexToInsert++,
             ...event
         };
-        this.events.push(event);
+        this.events.push(toCreate); 
+        
         return toCreate;
+    }
+
+    public update(id, event) {
+        const toUpdate = this.events.findIndex(event => event.id === id);
+        this.events[toUpdate] = {...this.events[toUpdate], ...event};
+        console.log(this.events);
+                
     }
 }
