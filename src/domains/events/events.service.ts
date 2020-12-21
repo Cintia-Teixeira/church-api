@@ -25,6 +25,7 @@ export class EventsService {
     }
 
     public async update(id: number, event: Event) {
-        
+        const updated = await this.eventsRepository.update(id, event);
+        return updated.affected;
     }
 }
