@@ -154,6 +154,14 @@ describe('Events', () => {
         });
     });
 
+    describe('/DELETE eventos', () => {
+        it('should remove an existing event by its ID', async () => {
+            return await request(app.getHttpServer())
+                .delete('/eventos/2')
+                .expect(200);
+        });
+    });
+
     afterAll(async () => {
         await app.close();
     });
