@@ -59,8 +59,16 @@ describe('EventsController', () => {
     describe('update', () => {
         it('should update an existing event using its ID', async () => {
             let result: void
-            
+
             expect(await eventsController.update(1, event2 as Event)).toBe(result);
-        })
-    })
+        });
+    });
+
+    describe('delete', () => {
+        it('should remove an existing event by its ID', async () => {
+            let result: void
+
+            expect(await eventsController.delete(2)).toBe(result);
+        });
+    });
 })
