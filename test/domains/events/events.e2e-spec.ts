@@ -83,6 +83,36 @@ describe('Events', () => {
                     console.log(res.body);
                 });
         });
+
+        it('should return error if is tried to create an event without a date', async () => {
+            return await request(app.getHttpServer())
+                .post('/eventos')
+                .send(eventWithoutDate)
+                .expect(400)
+                .expect(res => {
+                    expect(res.body.message).toContain('date should not be empty');
+                });
+        });
+
+        it('should return error if is tried to create an event without a name', async () => {
+            return await request(app.getHttpServer())
+                .post('/eventos')
+                .send(eventWithoutName)
+                .expect(400)
+                .expect(res => {
+                    expect(res.body.message).toContain('name should not be empty');
+                });
+        });
+
+        it('should return error if is tried to create an event without a description', async () => {
+            return await request(app.getHttpServer())
+                .post('/eventos')
+                .send(eventWithoutDescription)
+                .expect(400)
+                .expect(res => {
+                    expect(res.body.message).toContain('description should not be empty');
+                });
+        });
     });
 
     describe('/PUT eventos', () => {
