@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { config } from 'dotenv';
@@ -22,6 +22,22 @@ describe('Events', () => {
         name: 'IV Jornada Teológica',
         description: 'Jornada'
     }
+
+    let eventWithoutDate = {
+        name: 'IV Jornada Teológica',
+        description: 'Jornada Teológica'
+    }
+
+    let eventWithoutName = {
+        date: new Date('2021-10-12 9:00:00'),
+        description: 'Jornada'
+    }
+
+    let eventWithoutDescription = {
+        date: new Date('2021-07-04 12:00:00'),
+        name: 'IV Jornada Teológica'
+    }
+
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
             imports: [
@@ -41,6 +57,8 @@ describe('Events', () => {
             .compile();
 
         app = moduleRef.createNestApplication();
+        app.useGlobalPipes(new ValidationPipe({ transform: true }));
+
         await app.init();
     });
 
@@ -73,6 +91,36 @@ describe('Events', () => {
                 .put('/eventos/1')
                 .send(event2)
                 .expect(200);
+        });
+
+        it('should return error if is tried to update an existing event without a date', async () => {
+            return await request(app.getHttpServer())
+                .put('/eventos/5')
+                .send(eventWithoutDate)
+                .expect(400)
+                .expect(res => {
+                    expect(res.body.message).toContain('date should not be empty');
+                });
+        });
+
+        it('should return error if is tried to update an existing event without a name', async () => {
+            return await request(app.getHttpServer())
+                .put('/eventos/6')
+                .send(eventWithoutName)
+                .expect(400)
+                .expect(res => {
+                    expect(res.body.message).toContain('name should not be empty');
+                });
+        });
+
+        it('should return error if is tried to update an existing event without a description', async () => {
+            return await request(app.getHttpServer())
+                .put('/eventos/7')
+                .send(eventWithoutDescription)
+                .expect(400)
+                .expect(res => {
+                    expect(res.body.message).toContain('description should not be empty');
+                });
         });
     });
 
