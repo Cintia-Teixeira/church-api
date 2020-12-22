@@ -3,6 +3,7 @@ import { Test } from '@nestjs/testing';
 import { MemberAreaService } from './../../../src/domains/member-area/memberArea.service';
 import { MemberAreaController } from './../../../src/domains/member-area/memberArea.controller';
 import { MemberAreaServiceMock } from '../../common/models/memberAreaServiceMock';
+import { Directorship } from './../../../src/common/models/member.entity';
 
 
 describe('MemberAreaController', () => {
@@ -12,7 +13,11 @@ describe('MemberAreaController', () => {
         name: 'Cintia', 
         email: 'cin@email.com',
         telphone: 24999999999, 
-        address: 'Rua do Ouvidor, 50'
+        address: 'Rua do Ouvidor, 50',
+        leadership: null,
+        directorship: Directorship.SS,
+        employee: false,
+        deacon: false
     };
 
     beforeAll(async () => {
