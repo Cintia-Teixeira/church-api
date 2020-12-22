@@ -123,6 +123,13 @@ describe('Events', () => {
                 .expect(200);
         });
 
+        it('should return error if it tried to update an event by an unexisting ID', async () => {
+            return await request(app.getHttpServer())
+                .put('/eventos/35')
+                .send(event2)
+                .expect(404);
+        });
+
         it('should return error if is tried to update an existing event without a date', async () => {
             return await request(app.getHttpServer())
                 .put('/eventos/5')
@@ -157,7 +164,7 @@ describe('Events', () => {
     describe('/DELETE eventos', () => {
         it('should remove an existing event by its ID', async () => {
             return await request(app.getHttpServer())
-                .delete('/eventos/3')
+                .delete('/eventos/4')
                 .expect(200);
         });
 
