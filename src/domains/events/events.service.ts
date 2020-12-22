@@ -28,4 +28,8 @@ export class EventsService {
         const updated = await this.eventsRepository.update(id, event);
         return updated.affected;
     }
+
+    public async delete(id: number) {
+        return 'event removed'
+    }
 }

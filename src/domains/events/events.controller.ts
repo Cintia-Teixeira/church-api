@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, NotFoundException, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Post, Put } from '@nestjs/common';
 
 import { EventsService } from './events.service';
 import { Event } from '../../common/models/event.entity';
@@ -27,5 +27,10 @@ export class EventsController {
                 message: 'Event not found.'
             });
         }
+    }
+
+    @Delete(':id')
+    public async delete(@Param('id') id: number) {
+        await this.eventsService.delete(id);
     }
 }

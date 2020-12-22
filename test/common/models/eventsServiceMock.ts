@@ -23,15 +23,20 @@ export class EventsServiceMock {
             id: this.indexToInsert++,
             ...event
         };
-        this.events.push(toCreate); 
-        
+        this.events.push(toCreate);
+
         return toCreate;
     }
 
     public update(id, event) {
         const toUpdate = this.events.findIndex(event => event.id === id);
-        this.events[toUpdate] = {...this.events[toUpdate], ...event};
+        this.events[toUpdate] = { ...this.events[toUpdate], ...event };
         console.log(this.events);
-                
+
+    }
+
+    public delete(id) {
+        const filtered = this.events.filter(event => event.id != id);
+        this.events = filtered;
     }
 }
