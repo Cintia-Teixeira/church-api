@@ -30,6 +30,7 @@ export class EventsService {
     }
 
     public async delete(id: number) {
-        return 'event removed'
+        const deleted = await this.eventsRepository.delete(id);
+        return deleted.affected;
     }
 }

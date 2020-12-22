@@ -31,6 +31,12 @@ export class EventsController {
 
     @Delete(':id')
     public async delete(@Param('id') id: number) {
-        await this.eventsService.delete(id);
+        const deleted = await this.eventsService.delete(id);
+        if (!deleted) {
+            throw new NotFoundException({
+                status: HttpStatus.NOT_FOUND,
+                message: 'Event not found.'
+            });
+        }
     }
 }
