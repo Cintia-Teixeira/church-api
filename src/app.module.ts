@@ -1,5 +1,7 @@
+import { diskStorage } from 'multer';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { MulterModule } from '@nestjs/platform-express';
 
 import { config } from 'dotenv';
 
@@ -23,6 +25,9 @@ config();
       database: process.env.DB_NAME,
       entities: [Image],
       synchronize: true
+    }),
+    MulterModule.register({
+      dest: './uploads'
     })
   ],
   controllers: [AppController],

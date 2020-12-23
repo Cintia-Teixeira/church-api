@@ -1,10 +1,12 @@
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, UseInterceptors } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import {  MulterModule } from '@nestjs/platform-express';
 
 import * as request from 'supertest';
 import { config } from 'dotenv';
 import { getConnection } from 'typeorm';
+import path = require('path');
 
 import { GalleryModule } from '../../../src/domains/gallery/gallery.module';
 import { Image } from '../../../src/common/models/image.entity'
@@ -15,7 +17,7 @@ describe('Gallery', () => {
     let app: INestApplication;
     let connection;
     jest.setTimeout(30000);
-  
+
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
             imports: [
@@ -29,8 +31,12 @@ describe('Gallery', () => {
                     database: process.env.DB_TEST_NAME,
                     entities: [Image],
                     synchronize: true
-                })
+                }),
+                MulterModule.register({
+                    dest: './test/uploads',
+                  })
             ]
+
         })
             .compile();
 
@@ -41,8 +47,8 @@ describe('Gallery', () => {
         const defaultImage = new Image();
         defaultImage.path = 'test/uploads/image.png';
         await connection.createQueryBuilder()
-        .insert().into(Image).values([defaultImage])
-        .execute();
+            .insert().into(Image).values([defaultImage])
+            .execute();
     });
 
     describe('/POST gallery', () => {

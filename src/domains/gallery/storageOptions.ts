@@ -5,7 +5,6 @@ import path = require('path');
 export const storage = {
     storage:
         diskStorage({
-            destination: './uploads',
             filename: (req, file, cb) => {
                 const filename: string = path.parse(file.originalname).name.replace(/\s/g, '') + uuidv4();
                 const extension: string = path.parse(file.originalname).ext;
