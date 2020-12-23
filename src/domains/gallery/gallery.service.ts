@@ -11,8 +11,12 @@ export class GalleryService {
         this.imageRepository = connection.getRepository(Image);
     }
 
+    listImages (): Promise<Image[]> {
+        return this.imageRepository.find();
+    }
+
     async uploadImage(img): Promise<Image> {
-        const { raw: { insertId } } = await this.imageRepository.insert(img);
+        const { raw: { insertId } } = await this.imageRepository.insert({ path: img.virtualPath });
         
         return {
             id: insertId,

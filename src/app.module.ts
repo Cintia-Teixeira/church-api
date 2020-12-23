@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -12,6 +14,10 @@ import { Image } from './common/models/image.entity';
     ConfigModule.forRoot({
       envFilePath: `.env.${process.env.NODE_ENV}`,
       isGlobal: true
+    }),
+    ServeStaticModule.forRoot({
+      serveRoot: `/${process.env.IMAGES_PATH}`,
+      rootPath: join(__dirname, '..', `${process.env.UPLOAD_PATH}`)
     }),
     GalleryModule,
     TypeOrmModule.forRoot({

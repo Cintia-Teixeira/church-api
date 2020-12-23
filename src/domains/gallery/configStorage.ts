@@ -9,8 +9,10 @@ export const storage = (configService: ConfigService) => {
         filename: (req, file, cb) => {
             const filename: string = path.parse(file.originalname).name.replace(/\s/g, '') + uuidv4();
             const extension: string = path.parse(file.originalname).ext;
+            const fileFullName = `${filename}${extension}`;
+            file['virtualPath'] = `${process.env.IMAGES_PATH}/${fileFullName}`;
 
-            cb(null, `${filename}${extension}`) 
+            cb(null, fileFullName);
         }
     });
 }
