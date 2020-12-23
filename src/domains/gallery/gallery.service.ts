@@ -13,12 +13,11 @@ export class GalleryService {
 
     async uploadImage(img): Promise<Image> {
         const { raw: { insertId } } = await this.imageRepository.insert(img);
-        console.log(img.originalname);
         
         return {
             id: insertId,
             ...img
-        }
+        };
     }
 
     displayImages (): Promise<Image[]> {
