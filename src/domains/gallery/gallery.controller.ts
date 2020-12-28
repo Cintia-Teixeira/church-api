@@ -1,4 +1,4 @@
-import { Controller, Post, UseInterceptors, UploadedFile, Get } from '@nestjs/common';
+import { Controller, Post, UseInterceptors, UploadedFile, Get, Delete, Param } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { GalleryService } from './gallery.service';
 import { Image } from 'src/common/models/image.entity';
@@ -12,7 +12,7 @@ export class GalleryController {
     listImages(): Promise<Image[]> {
         return this.galleryService.listImages();
     }
-    
+
     @Post('upload')
     @UseInterceptors(FileInterceptor('img'))
     uploadImage(@UploadedFile() img) {

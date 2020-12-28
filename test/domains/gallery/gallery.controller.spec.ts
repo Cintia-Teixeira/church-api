@@ -8,7 +8,7 @@ describe('GalleryController', () => {
     let galleryController: GalleryController;
     let galleryService: GalleryService;
     let img = {
-        path: 'test/uploads/image2.png'
+        path: 'test/test-uploads/image2.png'
     };
 
     beforeAll(async () => {
@@ -44,7 +44,7 @@ describe('GalleryController', () => {
         });
     });
 
-    describe('displayImages', () => {
+    describe('listImages', () => {
         it('should display all images', async () => {
             const result: Image[] = [
                 {
@@ -60,8 +60,9 @@ describe('GalleryController', () => {
                     ...img
                 }
             ];
-
-            expect(await galleryController.displayImages()).toStrictEqual(result);
+            console.log(result);
+            
+            expect(await galleryController.listImages()).toStrictEqual(result);
         });
     });
 

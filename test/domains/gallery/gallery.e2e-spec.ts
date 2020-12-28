@@ -1,7 +1,7 @@
 import { INestApplication, UseInterceptors } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import {  MulterModule } from '@nestjs/platform-express';
+import { MulterModule } from '@nestjs/platform-express';
 
 import * as request from 'supertest';
 import { config } from 'dotenv';
@@ -10,6 +10,8 @@ import path = require('path');
 
 import { GalleryModule } from '../../../src/domains/gallery/gallery.module';
 import { Image } from '../../../src/common/models/image.entity'
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { storage } from '../../../src/domains/gallery/configStorage';
 
 config();
 
@@ -28,27 +30,30 @@ describe('Gallery', () => {
                     port: parseInt(process.env.DB_PORT),
                     username: process.env.DB_USER,
                     password: process.env.DB_PASS,
-                    database: process.env.DB_TEST_NAME,
+                    database: process.env.DB_NAME,
                     entities: [Image],
                     synchronize: true
                 }),
-                MulterModule.register({
-                    dest: './test/uploads',
-                  })
+                // MulterModule.registerAsync({
+                //     imports: [ConfigModule],
+                //     inject: [ConfigService],
+                //     useFactory: async (configService: ConfigService) => ({
+                //         storage: storage(configService)
+                //     }),
+                // })
             ]
-
         })
             .compile();
 
         app = moduleRef.createNestApplication();
         app.init();
-        connection = getConnection();
-        await connection.createQueryRunner().clearTable('images');
-        const defaultImage = new Image();
-        defaultImage.path = 'test/uploads/image.png';
-        await connection.createQueryBuilder()
-            .insert().into(Image).values([defaultImage])
-            .execute();
+        // connection = getConnection();
+        // await connection.createQueryRunner().clearTable('images');
+        // const defaultImage = new Image();
+        // defaultImage.path = 'test/test-uploads/image.png';
+        // await connection.createQueryBuilder()
+        //     .insert().into(Image).values([defaultImage])
+        //     .execute();
     });
 
     describe('/POST gallery', () => {
@@ -56,7 +61,7 @@ describe('Gallery', () => {
             return await request(app.getHttpServer())
                 .post('/gallery/upload')
                 .set('Content-Type', 'multipart/form-data')
-                .attach('img', './test/uploads/image.jpg')
+                .attach('img', './test/test-uploads/image.jpg')
                 .expect(201);
         });
     });
@@ -64,16 +69,16 @@ describe('Gallery', () => {
     describe('/GET gallery', () => {
         it('should display all the images', async () => {
             return await request(app.getHttpServer())
-            .get('/gallery')
-            .expect(200);
+                .get('/gallery')
+                .expect(200);
         });
     });
 
     describe('/DELETE gallery', () => {
         it('should remove an image', async () => {
             return await request(app.getHttpServer())
-            .delete('/gallery/2')
-            .expect(200);
+                .delete('/gallery/2')
+                .expect(200);
         });
     });
 

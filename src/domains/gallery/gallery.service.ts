@@ -11,26 +11,22 @@ export class GalleryService {
         this.imageRepository = connection.getRepository(Image);
     }
 
-    listImages (): Promise<Image[]> {
+    listImages(): Promise<Image[]> {
         return this.imageRepository.find();
     }
 
     async uploadImage(img): Promise<Image> {
         const { raw: { insertId } } = await this.imageRepository.insert({ path: img.virtualPath });
-        
+
         return {
             id: insertId,
             ...img
         };
     }
 
-    displayImages (): Promise<Image[]> {
-        return this.imageRepository.find();
-    }
-
     async remove(id: number) {
         const deleted = await this.imageRepository.delete({ id });
         return deleted.affected;
-      }
-    
+    }
+
 }

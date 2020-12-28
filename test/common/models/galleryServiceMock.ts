@@ -21,7 +21,7 @@ export class GalleryServiceMock {
         return toUpload;
     }
 
-    displayImages(): Image[] {
+    listImages(): Image[] {
         return this.images
     }
 
