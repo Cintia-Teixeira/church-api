@@ -8,6 +8,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { GalleryModule } from './domains/gallery/gallery.module';
 import { Image } from './common/models/image.entity';
+import { EventsModule } from './domains/events/events.module';
+import { MemberAreaModule } from './domains/member-area/memberArea.module';
 
 @Module({
   imports: [
@@ -19,7 +21,9 @@ import { Image } from './common/models/image.entity';
       serveRoot: `/${process.env.IMAGES_PATH}`,
       rootPath: join(__dirname, '..', `${process.env.UPLOAD_PATH}`)
     }),
+    EventsModule,
     GalleryModule,
+    MemberAreaModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST,
