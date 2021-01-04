@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing';
 import { MemberAreaService } from './../../../src/domains/member-area/memberArea.service';
 import { MemberAreaController } from './../../../src/domains/member-area/memberArea.controller';
 import { MemberAreaServiceMock } from '../../common/models/memberAreaServiceMock';
-import { Directorship, Member } from './../../../src/common/models/member.entity';
+import { Directorship, Leadership, Member } from './../../../src/common/models/member.entity';
 
 
 describe('MemberAreaController', () => {
@@ -17,6 +17,17 @@ describe('MemberAreaController', () => {
         leadership: null,
         directorship: Directorship.SS,
         employee: false,
+        deacon: false
+    };
+
+    let member2 = {
+        name: 'Tais', 
+        email: 'tais@email.com',
+        telphone: '24999999999', 
+        address: 'Rua do Ouvidor, 50',
+        leadership: Leadership.EBD,
+        directorship: Directorship.ST,
+        employee: true,
         deacon: false
     };
 
@@ -52,6 +63,14 @@ describe('MemberAreaController', () => {
             };
 
             expect(await memberAreaController.create(member as Member)).toStrictEqual(result);
+        });
+    });
+
+    describe('update', () => {
+        it('should update an existing member by its ID', async () => {
+            let result: void
+
+            expect(await memberAreaController.update(1, member2 as Member)).toBe(result)
         })
     })
 })
