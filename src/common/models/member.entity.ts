@@ -14,16 +14,16 @@ export class Member {
     @Column()
     email: string;
 
-    @Column()
-    telphone: number;
+    @Column('varchar', { length: 15 })
+    telphone: string;
 
     @Column()
     address: string;
 
-    @Column()
+    @Column({ nullable: true })
     leadership: Leadership;
 
-    @Column()
+    @Column({ nullable: true })
     directorship: Directorship;
 
     @Column()

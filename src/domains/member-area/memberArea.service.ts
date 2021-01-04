@@ -14,7 +14,11 @@ export class MemberAreaService {
         return this.memberAreaRepository.find();
     }
 
-    public create(member) {
-        return 'created'
+    public async create(member) {
+        const { raw: { insertId } } = await this.memberAreaRepository.insert(member);
+        return {
+            id: insertId,
+            ...member
+        }
     }
 }

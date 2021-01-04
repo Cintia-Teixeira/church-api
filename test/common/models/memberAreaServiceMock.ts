@@ -9,7 +9,7 @@ export class MemberAreaServiceMock {
             id: 1,
             name: 'Cintia',
             email: 'cin@email.com',
-            telphone: 24999999999,
+            telphone: '24999999999',
             address: 'Rua do Ouvidor, 50',
             leadership: null,
             directorship: Directorship.SS,

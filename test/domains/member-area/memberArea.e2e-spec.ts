@@ -16,13 +16,15 @@ describe('Member Area', () => {
     let member = {
         name: 'Cintia',
         email: 'cin@email.com',
-        telphone: 24999999999,
+        telphone: '24999999999',
         address: 'Rua do Ouvidor, 50',
         leadership: null,
         directorship: Directorship.SS,
         employee: false,
         deacon: false
     }
+
+    jest.setTimeout(30000);
 
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
