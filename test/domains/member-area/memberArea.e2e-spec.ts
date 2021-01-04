@@ -7,12 +7,22 @@ import { config } from 'dotenv';
 import * as request from 'supertest';
 
 import { MemberAreaModule } from './../../../src/domains/member-area/memberArea.module';
-import { Member } from '../../../src/common/models/member.entity';
+import { Directorship, Member } from '../../../src/common/models/member.entity';
 
 config();
 
 describe('Member Area', () => {
     let app: INestApplication;
+    let member = {
+        name: 'Cintia',
+        email: 'cin@email.com',
+        telphone: 24999999999,
+        address: 'Rua do Ouvidor, 50',
+        leadership: null,
+        directorship: Directorship.SS,
+        employee: false,
+        deacon: false
+    }
 
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
@@ -50,6 +60,18 @@ describe('Member Area', () => {
                 });
         });
     });
+
+    describe('/POST area-do-membro', () => {
+        it('should create a member', async () => {
+            return request(app.getHttpServer())
+                .post('/area-do-membro')
+                .send(member)
+                .expect(201)
+                .expect(res => {
+                    console.log(res.body);
+                });
+        })
+    })
 
     afterAll(async () => {
         await app.close();
