@@ -47,7 +47,7 @@ describe('MemberAreaController', () => {
     describe('create', () => {
         it('should create a member', async () => {
             const result = {
-                id: 1,
+                id: 2,
                 ... member
             };
 

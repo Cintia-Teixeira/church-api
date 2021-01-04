@@ -13,4 +13,8 @@ export class MemberAreaService {
     public findAll() {
         return this.memberAreaRepository.find();
     }
+
+    public create(member) {
+        return 'created'
+    }
 }

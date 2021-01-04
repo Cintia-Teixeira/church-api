@@ -18,7 +18,19 @@ export class MemberAreaServiceMock {
         }
     ]
 
+    private indexToInsert = 2;
+
     public findAll() {
         return this.members;
+    }
+
+    public create(member) {
+        const toCreate = {
+            id: this.indexToInsert++,
+            ...member
+        }
+        this.members.push(toCreate);
+
+        return toCreate;
     }
 }
