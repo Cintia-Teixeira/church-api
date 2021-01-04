@@ -6,8 +6,8 @@ import { ConfigModule } from '@nestjs/config';
 import { config } from 'dotenv';
 import * as request from 'supertest';
 
-import { MemberAreaService } from './../../../src/domains/member-area/memberArea.service';
-import { MemberAreaController } from './../../../src/domains/member-area/memberArea.controller';
+import { MemberAreaModule } from './../../../src/domains/member-area/memberArea.module';
+import { Member } from '../../../src/common/models/member.entity';
 
 config();
 
@@ -27,13 +27,12 @@ describe('Member Area', () => {
                     port: parseInt(process.env.DB_PORT),
                     username: process.env.DB_USER,
                     password: process.env.DB_PASS,
-                    database: process.env.DB_TEST_NAME,
-                    entities: [],
+                    database: process.env.DB_NAME,
+                    entities: [Member],
                     synchronize: true
-                })
-            ],
-            controllers: [MemberAreaController],
-            providers: [MemberAreaService]
+                }),
+                MemberAreaModule
+            ]
         })
             .compile();
 

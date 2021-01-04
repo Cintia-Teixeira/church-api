@@ -1,26 +1,35 @@
-import { Entity } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({
     name: 'members'
 })
 export class Member {
 
+    @PrimaryGeneratedColumn()
     id: number;
 
+    @Column()
     name: string;
 
+    @Column()
     email: string;
 
+    @Column()
     telphone: number;
 
+    @Column()
     address: string;
 
+    @Column()
     leadership: Leadership;
 
+    @Column()
     directorship: Directorship;
 
+    @Column()
     employee: boolean;
 
+    @Column()
     deacon: boolean;
 }
 
