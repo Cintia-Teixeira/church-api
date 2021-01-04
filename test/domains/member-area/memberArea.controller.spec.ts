@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing';
 import { MemberAreaService } from './../../../src/domains/member-area/memberArea.service';
 import { MemberAreaController } from './../../../src/domains/member-area/memberArea.controller';
 import { MemberAreaServiceMock } from '../../common/models/memberAreaServiceMock';
-import { Directorship } from './../../../src/common/models/member.entity';
+import { Directorship, Member } from './../../../src/common/models/member.entity';
 
 
 describe('MemberAreaController', () => {
@@ -43,4 +43,15 @@ describe('MemberAreaController', () => {
             expect(await memberAreaController.findAll()).toStrictEqual(result);
         });
     });
+
+    describe('create', () => {
+        it('should create a member', async () => {
+            const result = {
+                id: 1,
+                ... member
+            };
+
+            expect(await memberAreaController.create(member as Member)).toStrictEqual(result);
+        })
+    })
 })
