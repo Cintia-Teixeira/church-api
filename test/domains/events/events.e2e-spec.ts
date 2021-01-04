@@ -1,6 +1,7 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 import { config } from 'dotenv';
 import * as request from 'supertest';
 
@@ -41,6 +42,10 @@ describe('Events', () => {
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
             imports: [
+                ConfigModule.forRoot({
+                    envFilePath: `.env.${process.env.NODE_ENV}`,
+                    isGlobal: true
+                  }),
                 EventsModule,
                 TypeOrmModule.forRoot({
                     type: 'mysql',
@@ -51,7 +56,7 @@ describe('Events', () => {
                     database: process.env.DB_NAME,
                     entities: [Event],
                     synchronize: true
-                })
+                }),
             ]
         })
             .compile();
@@ -164,7 +169,7 @@ describe('Events', () => {
     describe('/DELETE eventos', () => {
         it('should remove an existing event by its ID', async () => {
             return await request(app.getHttpServer())
-                .delete('/eventos/4')
+                .delete('/eventos/8')
                 .expect(200);
         });
 
