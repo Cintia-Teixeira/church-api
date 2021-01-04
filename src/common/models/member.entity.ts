@@ -1,3 +1,4 @@
+import { IsNotEmpty } from 'class-validator';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({
@@ -8,6 +9,7 @@ export class Member {
     @PrimaryGeneratedColumn()
     id: number;
 
+    @IsNotEmpty()
     @Column()
     name: string;
 
@@ -26,9 +28,15 @@ export class Member {
     @Column({ nullable: true })
     directorship: Directorship;
 
+    @IsNotEmpty({
+        message: 'you have to answer if the member is an employee'
+    })
     @Column()
     employee: boolean;
 
+    @IsNotEmpty({
+        message: 'you have to answer if the member is a deacon'
+    })
     @Column()
     deacon: boolean;
 }

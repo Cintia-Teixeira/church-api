@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
@@ -22,7 +22,37 @@ describe('Member Area', () => {
         directorship: Directorship.SS,
         employee: false,
         deacon: false
-    }
+    };
+
+    let memberWithoutName = {
+        email: 'cin@email.com',
+        telphone: '24999999999',
+        address: 'Rua do Ouvidor, 50',
+        leadership: null,
+        directorship: Directorship.SS,
+        employee: false,
+        deacon: false
+    };
+
+    let memberWithoutEmployeeProp = {
+        name: 'Cintia',
+        email: 'cin@email.com',
+        telphone: '24999999999',
+        address: 'Rua do Ouvidor, 50',
+        leadership: null,
+        directorship: Directorship.SS,
+        deacon: false
+    };
+
+    let memberWithoutDeaconProp = {
+        name: 'Cintia',
+        email: 'cin@email.com',
+        telphone: '24999999999',
+        address: 'Rua do Ouvidor, 50',
+        leadership: null,
+        directorship: Directorship.SS,
+        employee: false
+    };
 
     jest.setTimeout(30000);
 
@@ -49,6 +79,8 @@ describe('Member Area', () => {
             .compile();
 
         app = moduleRef.createNestApplication();
+        app.useGlobalPipes(new ValidationPipe({ transform: true }));
+        
         await app.init();
     });
 
@@ -72,8 +104,38 @@ describe('Member Area', () => {
                 .expect(res => {
                     console.log(res.body);
                 });
+        });
+
+        it('should return error if is tried to create a member without name', async () => {
+            return request(app.getHttpServer())
+            .post('/area-do-membro')
+            .send(memberWithoutName)
+            .expect(400)
+            .expect(res => {
+                expect(res.body.message).toContain('name should not be empty');
+            });
+        });
+
+        it('should return error if is tried to create a member without answering if he/she is an employee', async () => {
+            return request(app.getHttpServer())
+            .post('/area-do-membro')
+            .send(memberWithoutEmployeeProp)
+            .expect(400)
+            .expect(res => {
+                expect (res.body.message).toContain('you have to answer if the member is an employee');
+            });
+        });
+
+        it('should return error if is tried to create a member without answering if he/she is a deacon', async () => {
+            return request(app.getHttpServer())
+            .post('/area-do-membro')
+            .send(memberWithoutDeaconProp)
+            .expect(400)
+            .expect(res => {
+                expect (res.body.message).toContain('you have to answer if the member is a deacon');
+            })
         })
-    })
+    });
 
     afterAll(async () => {
         await app.close();
