@@ -21,4 +21,8 @@ export class MemberAreaService {
             ...member
         }
     }
+
+    public update(id, member) {
+        
+    }
 }

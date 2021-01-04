@@ -33,4 +33,9 @@ export class MemberAreaServiceMock {
 
         return toCreate;
     }
+
+    public update(id, member) {
+        const toUpdate = this.members.findIndex(member => member.id === id);
+        this.members[toUpdate] = { ...this.members[toUpdate], ...member };
+    }
 }
