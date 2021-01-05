@@ -24,7 +24,10 @@ export class MemberAreaService {
 
     public async update(id: number, member: Member) {
         const updated = await this.memberAreaRepository.update(id, member);
-        return updated.affected;
+        return updated.affected;        
+    }
+
+    public async remove(id: number) {
         
     }
 }

@@ -38,4 +38,9 @@ export class MemberAreaServiceMock {
         const toUpdate = this.members.findIndex(member => member.id === id);
         this.members[toUpdate] = { ...this.members[toUpdate], ...member };
     }
+
+    public remove(id) {
+        const filtered = this.members.filter(member => member.id !== id);
+        this.members = filtered;
+    }
 }
