@@ -142,7 +142,7 @@ describe('Member Area', () => {
         })
     });
 
-    describe('/PUT area-do-membro', () => {
+    describe('/PUT area-do-membro/:id', () => {
         it('should update an existing member by its ID', async () => {
             return request(app.getHttpServer())
             .put('/area-do-membro/1')
@@ -176,6 +176,14 @@ describe('Member Area', () => {
             .put('/area-do-membro/4')
             .send(memberWithoutDeaconProp)
             .expect(400);
+        });
+    });
+
+    describe('/DELETE area-do-membro/:id', () => {
+        it('should remove a member by its ID', async () => {
+            return request(app.getHttpServer())
+            .delete('/area-do-membro/5')
+            .expect(200);
         });
     });
 

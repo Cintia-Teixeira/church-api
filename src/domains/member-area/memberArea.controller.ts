@@ -21,12 +21,12 @@ export class MemberAreaController {
     @Put(':id')
     public async update(@Param('id') id: number, @Body() member: Member) {
         const updated = await this.memberAreaService.update(id, member);
-        // if (!updated) {
-        //     throw new NotFoundException({
-        //         status: HttpStatus.NOT_FOUND,
-        //         message: 'Event not found.'
-        //     });
-        // }
+        if (!updated) {
+            throw new NotFoundException({
+                status: HttpStatus.NOT_FOUND,
+                message: 'Event not found.'
+            });
+        }
     }
 
     @Delete(':id')
