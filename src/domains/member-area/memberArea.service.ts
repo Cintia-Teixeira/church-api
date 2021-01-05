@@ -22,7 +22,9 @@ export class MemberAreaService {
         }
     }
 
-    public update(id, member) {
+    public async update(id: number, member: Member) {
+        const updated = await this.memberAreaRepository.update(id, member);
+        return updated.affected;
         
     }
 }

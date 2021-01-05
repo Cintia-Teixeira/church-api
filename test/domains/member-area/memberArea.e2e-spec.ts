@@ -148,10 +148,10 @@ describe('Member Area', () => {
         })
     });
 
-    describe('/PUT area-do-membro/:id', () => {
+    describe('/PUT area-do-membro', () => {
         it('should update an existing member by its ID', async () => {
             return request(app.getHttpServer())
-            .put('area-do-membro/1')
+            .put('/area-do-membro/1')
             .send(member2)
             .expect(200);
         });

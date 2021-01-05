@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, NotFoundException, Param, Post, Put } from '@nestjs/common';
 
 import { MemberAreaService } from './memberArea.service';
 import { Member } from '../../common/models/member.entity';
@@ -19,7 +19,13 @@ export class MemberAreaController {
     }
 
     @Put(':id')
-    public update(@Param('id') id: number, @Body() member: Member) {
-        const updated = this.memberAreaService.update(id, member);
+    public async update(@Param('id') id: number, @Body() member: Member) {
+        const updated = await this.memberAreaService.update(id, member);
+        if (!updated) {
+            throw new NotFoundException({
+                status: HttpStatus.NOT_FOUND,
+                message: 'Event not found.'
+            });
+        }
     }
 }
