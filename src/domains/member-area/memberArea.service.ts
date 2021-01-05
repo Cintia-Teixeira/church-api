@@ -28,6 +28,7 @@ export class MemberAreaService {
     }
 
     public async remove(id: number) {
-        
+        const removed = await this.memberAreaRepository.delete(id);
+        return removed.affected;
     }
 }

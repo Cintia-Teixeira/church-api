@@ -32,5 +32,11 @@ export class MemberAreaController {
     @Delete(':id')
     public async remove(@Param('id') id: number) {
         const removed = await this.memberAreaService.remove(id);
+        if (!removed) {
+            throw new NotFoundException({
+                status: HttpStatus.NOT_FOUND,
+                message: 'Event not found.'
+            });
+        }
     }
 }
