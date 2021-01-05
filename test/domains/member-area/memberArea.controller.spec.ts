@@ -70,7 +70,15 @@ describe('MemberAreaController', () => {
         it('should update an existing member by its ID', async () => {
             let result: void
 
-            expect(await memberAreaController.update(1, member2 as Member)).toBe(result)
+            expect(await memberAreaController.update(1, member2 as Member)).toBe(result);
+        });
+    });
+
+    describe('remove', () => {
+        it('should remove a member by its ID', async () => {
+            let result: void
+            
+            expect(await memberAreaController.remove(2)).toBe(result);
         })
     })
 })
