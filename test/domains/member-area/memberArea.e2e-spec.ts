@@ -7,7 +7,7 @@ import { config } from 'dotenv';
 import * as request from 'supertest';
 
 import { MemberAreaModule } from './../../../src/domains/member-area/memberArea.module';
-import { Directorship, Member } from '../../../src/common/models/member.entity';
+import { Directorship, Leadership, Member } from '../../../src/common/models/member.entity';
 
 config();
 
@@ -21,6 +21,17 @@ describe('Member Area', () => {
         leadership: null,
         directorship: Directorship.SS,
         employee: false,
+        deacon: false
+    };
+
+    let member2 = {
+        name: 'Tais', 
+        email: 'tais@email.com',
+        telphone: '24999999999', 
+        address: 'Rua do Ouvidor, 50',
+        leadership: Leadership.EBD,
+        directorship: Directorship.ST,
+        employee: true,
         deacon: false
     };
 
@@ -135,6 +146,15 @@ describe('Member Area', () => {
                 expect (res.body.message).toContain('you have to answer if the member is a deacon');
             })
         })
+    });
+
+    describe('/PUT area-do-membro/:id', () => {
+        it('should update an existing member by its ID', async () => {
+            return request(app.getHttpServer())
+            .put('area-do-membro/1')
+            .send(member2)
+            .expect(200);
+        });
     });
 
     afterAll(async () => {
