@@ -182,9 +182,15 @@ describe('Member Area', () => {
     describe('/DELETE area-do-membro/:id', () => {
         it('should remove a member by its ID', async () => {
             return request(app.getHttpServer())
-            .delete('/area-do-membro/5')
+            .delete('/area-do-membro/7')
             .expect(200);
         });
+
+        it('should return error if is tried to remove a member by an unexisting ID', async () => {
+            return request(app.getHttpServer())
+            .delete('/area-do-membro/40')
+            .expect(404);
+        })
     });
 
     afterAll(async () => {
