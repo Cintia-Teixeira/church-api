@@ -99,10 +99,7 @@ describe('Member Area', () => {
         it('should return a list of all members', async () => {
             return await request(app.getHttpServer())
                 .get('/area-do-membro')
-                .expect(200)
-                .expect(res => {
-                    console.log(res.body);
-                });
+                .expect(200);
         });
     });
 
@@ -111,10 +108,7 @@ describe('Member Area', () => {
             return request(app.getHttpServer())
                 .post('/area-do-membro')
                 .send(member)
-                .expect(201)
-                .expect(res => {
-                    console.log(res.body);
-                });
+                .expect(201);
         });
 
         it('should return error if is tried to create a member without name', async () => {
@@ -154,6 +148,34 @@ describe('Member Area', () => {
             .put('/area-do-membro/1')
             .send(member2)
             .expect(200);
+        });
+
+        it('should return error if is tried to update a member by an unexisting ID', async () => {
+            return request(app.getHttpServer())
+            .put('/area-do-membro/35')
+            .send(member2)
+            .expect(404);
+        });
+
+        it('should return error if is tried to update an memberwithout name', async () => {
+           return request(app.getHttpServer())
+           .put('/area-do-membro/2')
+           .send(memberWithoutName)
+           .expect(400); 
+        });
+
+        it('should return error if is tried to update a member without answering if he/she is an employee', async () => {
+           return request(app.getHttpServer())
+           .put('/area-do-membro/3')
+           .send(memberWithoutEmployeeProp)
+           .expect(400); 
+        });
+
+        it('should return error if is tried to update a member without answering if he/she is a deacon', async () => {
+            return request(app.getHttpServer())
+            .put('/area-do-membro/4')
+            .send(memberWithoutDeaconProp)
+            .expect(400);
         });
     });
 
