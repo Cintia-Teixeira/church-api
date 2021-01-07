@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 
 import { config } from 'dotenv';
 import * as request from 'supertest';
+import { getConnection } from 'typeorm';
 
 import { MemberAreaModule } from './../../../src/domains/member-area/memberArea.module';
 import { Directorship, Leadership, Member } from '../../../src/common/models/member.entity';
@@ -13,6 +14,7 @@ config();
 
 describe('Member Area', () => {
     let app: INestApplication;
+    let connection;
     let member = {
         name: 'Cintia',
         email: 'cin@email.com',
@@ -25,9 +27,9 @@ describe('Member Area', () => {
     };
 
     let member2 = {
-        name: 'Tais', 
+        name: 'Tais',
         email: 'tais@email.com',
-        telphone: '24999999999', 
+        telphone: '24999999999',
         address: 'Rua do Ouvidor, 50',
         leadership: Leadership.EBD,
         directorship: Directorship.ST,
@@ -91,8 +93,22 @@ describe('Member Area', () => {
 
         app = moduleRef.createNestApplication();
         app.useGlobalPipes(new ValidationPipe({ transform: true }));
-        
         await app.init();
+        connection = getConnection();
+        await connection.createQueryRunner().clearTable('members');
+        const defaultMember = new Member();
+        defaultMember.name = 'Davi';
+        defaultMember.email = 'davi@email.com';
+        defaultMember.telphone = '21933333333';
+        defaultMember.address = 'Porto Velho - RO';
+        defaultMember.leadership = Leadership.EBD;
+        defaultMember.directorship = Directorship.VM;
+        defaultMember.employee = false;
+        defaultMember.deacon = true;
+        await connection.createQueryBuilder()
+            .insert().into(Member).values([defaultMember])
+            .execute();
+
     });
 
     describe('/GET area-do-membro', () => {
@@ -113,83 +129,83 @@ describe('Member Area', () => {
 
         it('should return error if is tried to create a member without name', async () => {
             return request(app.getHttpServer())
-            .post('/area-do-membro')
-            .send(memberWithoutName)
-            .expect(400)
-            .expect(res => {
-                expect(res.body.message).toContain('name should not be empty');
-            });
+                .post('/area-do-membro')
+                .send(memberWithoutName)
+                .expect(400)
+                .expect(res => {
+                    expect(res.body.message).toContain('name should not be empty');
+                });
         });
 
         it('should return error if is tried to create a member without answering if he/she is an employee', async () => {
             return request(app.getHttpServer())
-            .post('/area-do-membro')
-            .send(memberWithoutEmployeeProp)
-            .expect(400)
-            .expect(res => {
-                expect (res.body.message).toContain('you have to answer if the member is an employee');
-            });
+                .post('/area-do-membro')
+                .send(memberWithoutEmployeeProp)
+                .expect(400)
+                .expect(res => {
+                    expect(res.body.message).toContain('you have to answer if the member is an employee');
+                });
         });
 
         it('should return error if is tried to create a member without answering if he/she is a deacon', async () => {
             return request(app.getHttpServer())
-            .post('/area-do-membro')
-            .send(memberWithoutDeaconProp)
-            .expect(400)
-            .expect(res => {
-                expect (res.body.message).toContain('you have to answer if the member is a deacon');
-            })
+                .post('/area-do-membro')
+                .send(memberWithoutDeaconProp)
+                .expect(400)
+                .expect(res => {
+                    expect(res.body.message).toContain('you have to answer if the member is a deacon');
+                })
         })
     });
 
     describe('/PUT area-do-membro/:id', () => {
         it('should update an existing member by its ID', async () => {
             return request(app.getHttpServer())
-            .put('/area-do-membro/1')
-            .send(member2)
-            .expect(200);
+                .put('/area-do-membro/2')
+                .send(member2)
+                .expect(200);
         });
 
         it('should return error if is tried to update a member by an unexisting ID', async () => {
             return request(app.getHttpServer())
-            .put('/area-do-membro/35')
-            .send(member2)
-            .expect(404);
+                .put('/area-do-membro/35')
+                .send(member2)
+                .expect(404);
         });
 
         it('should return error if is tried to update an memberwithout name', async () => {
-           return request(app.getHttpServer())
-           .put('/area-do-membro/2')
-           .send(memberWithoutName)
-           .expect(400); 
+            return request(app.getHttpServer())
+                .put('/area-do-membro/2')
+                .send(memberWithoutName)
+                .expect(400);
         });
 
         it('should return error if is tried to update a member without answering if he/she is an employee', async () => {
-           return request(app.getHttpServer())
-           .put('/area-do-membro/3')
-           .send(memberWithoutEmployeeProp)
-           .expect(400); 
+            return request(app.getHttpServer())
+                .put('/area-do-membro/3')
+                .send(memberWithoutEmployeeProp)
+                .expect(400);
         });
 
         it('should return error if is tried to update a member without answering if he/she is a deacon', async () => {
             return request(app.getHttpServer())
-            .put('/area-do-membro/4')
-            .send(memberWithoutDeaconProp)
-            .expect(400);
+                .put('/area-do-membro/4')
+                .send(memberWithoutDeaconProp)
+                .expect(400);
         });
     });
 
     describe('/DELETE area-do-membro/:id', () => {
         it('should remove a member by its ID', async () => {
             return request(app.getHttpServer())
-            .delete('/area-do-membro/7')
-            .expect(200);
+                .delete('/area-do-membro/1')
+                .expect(200);
         });
 
         it('should return error if is tried to remove a member by an unexisting ID', async () => {
             return request(app.getHttpServer())
-            .delete('/area-do-membro/40')
-            .expect(404);
+                .delete('/area-do-membro/40')
+                .expect(404);
         })
     });
 
