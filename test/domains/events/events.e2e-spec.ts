@@ -2,8 +2,10 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+
 import { config } from 'dotenv';
 import * as request from 'supertest';
+import { getConnection } from 'typeorm';
 
 import { EventsModule } from './../../../src/domains/events/events.module';
 import { Event } from './../../../src/common/models/event.entity';
@@ -12,6 +14,7 @@ config();
 
 describe('Events', () => {
     let app: INestApplication;
+    let connection;
     let event = {
         date: new Date('2021-01-13 08:00:00'),
         name: 'III Jornada Teológica',
@@ -39,13 +42,15 @@ describe('Events', () => {
         name: 'IV Jornada Teológica'
     }
 
+    jest.setTimeout(30000);
+
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
             imports: [
                 ConfigModule.forRoot({
                     envFilePath: `.env.${process.env.NODE_ENV}`,
                     isGlobal: true
-                  }),
+                }),
                 EventsModule,
                 TypeOrmModule.forRoot({
                     type: 'mysql',
@@ -63,8 +68,16 @@ describe('Events', () => {
 
         app = moduleRef.createNestApplication();
         app.useGlobalPipes(new ValidationPipe({ transform: true }));
-
         await app.init();
+        connection = getConnection();
+        await connection.createQueryRunner().clearTable('events');
+        const defaultEvent = new Event();
+        defaultEvent.date = new Date('2022-05-17 8:30:00');
+        defaultEvent.name = 'V Jornada';
+        defaultEvent.description = 'Crie hábitos, não resoluções';
+        await connection.createQueryBuilder()
+            .insert().into(Event).values([defaultEvent])
+            .execute();
     });
 
     describe('/GET eventos', () => {
@@ -123,7 +136,7 @@ describe('Events', () => {
     describe('/PUT eventos', () => {
         it('should update an existing event by its ID', async () => {
             await request(app.getHttpServer())
-                .put('/eventos/1')
+                .put('/eventos/2')
                 .send(event2)
                 .expect(200);
         });
@@ -169,7 +182,7 @@ describe('Events', () => {
     describe('/DELETE eventos', () => {
         it('should remove an existing event by its ID', async () => {
             return await request(app.getHttpServer())
-                .delete('/eventos/8')
+                .delete('/eventos/1')
                 .expect(200);
         });
 
