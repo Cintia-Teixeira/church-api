@@ -10,6 +10,7 @@ import { GalleryModule } from './domains/gallery/gallery.module';
 import { Image } from './common/models/image.entity';
 import { EventsModule } from './domains/events/events.module';
 import { MemberAreaModule } from './domains/member-area/memberArea.module';
+import { PrayerModule } from './domains/prayers/prayer.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { MemberAreaModule } from './domains/member-area/memberArea.module';
     EventsModule,
     GalleryModule,
     MemberAreaModule,
+    PrayerModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST,

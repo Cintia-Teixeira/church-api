@@ -6,8 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { config } from 'dotenv';
 import * as request from 'supertest';
 
-import { PrayerService } from './../../../src/domains/prayers/prayer.service';
-import { PrayerController } from './../../../src/domains/prayers/prayer.controller';
+import { PrayerModule } from './../../../src/domains/prayers/prayer.module';
 
 config();
 
@@ -30,10 +29,9 @@ describe('Prayers', () => {
                     database: process.env.DB_TEST_NAME,
                     entities: [],
                     synchronize: true
-                })
+                }),
+                PrayerModule
             ],
-            controllers: [PrayerController],
-            providers: [PrayerService]
         })
             .compile();
 
