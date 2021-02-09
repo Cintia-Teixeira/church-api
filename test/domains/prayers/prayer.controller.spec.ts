@@ -1,7 +1,9 @@
-import { PrayerServiceMock } from '../../common/models/prayerServiceMock';
 import { Test } from '@nestjs/testing';
-import { PrayerService } from '../../../src/domains/prayers/prayer.service';
+
 import { PrayerController } from '../../../src/domains/prayers/prayer.controller';
+import { PrayerService } from '../../../src/domains/prayers/prayer.service';
+import { PrayerServiceMock } from '../../common/models/prayerServiceMock';
+import { Prayer } from 'src/common/models/prayer.entity';
 
 describe('PrayersController', () => {
     let prayerController: PrayerController;
@@ -32,6 +34,17 @@ describe('PrayersController', () => {
             }];
 
             expect(await prayerController.findAll()).toStrictEqual(result);
+        });
+    });
+
+    describe('create', () => {
+        it('should create a new prayer request', async () => {
+            const result = {
+                id: 2,
+                ...prayer
+            }
+
+            expect(await prayerController.create(prayer as Prayer)).toStrictEqual(result);
         });
     });
 })
