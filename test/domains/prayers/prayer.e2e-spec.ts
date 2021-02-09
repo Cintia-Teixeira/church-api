@@ -13,6 +13,10 @@ config();
 
 describe('Prayers', () => {
     let app: INestApplication;
+    let prayer = {
+        label: 'Ore pela igreja',
+        prayerRequest: 'God bless local churches'
+    }
 
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
@@ -45,6 +49,18 @@ describe('Prayers', () => {
             return await request(app.getHttpServer())
                 .get('/oracoes')
                 .expect(200)
+                .expect(res => {
+                    console.log(res.body)
+                });
+        });
+    });
+
+    describe('/POST oracoes', () => {
+        it('should create a new prayer request', async () => {
+            return await request(app.getHttpServer())
+                .post('/oracoes')
+                .send(prayer)
+                .expect(201)
                 .expect(res => {
                     console.log(res.body)
                 });
