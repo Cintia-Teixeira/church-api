@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Injectable } from '@nestjs/common';
 
 Injectable()
@@ -23,7 +24,13 @@ export class PrayerServiceMock {
             ...prayer
         }
         this.prayers.push(toCreate);
-        
+
         return toCreate;
+    }
+
+    public update(id, prayer) {
+        const toUpdate = this.prayers.findIndex(prayer => prayer.id === id);
+        this.prayers[toUpdate] = { ...this.prayers[toUpdate], ...prayer }
+
     }
 }

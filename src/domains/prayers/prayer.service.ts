@@ -22,4 +22,8 @@ export class PrayerService {
             ...prayer
         }
     }
+
+    public async update(id: number, prayer: Prayer) {
+        return 'Updated';
+    }
 }
