@@ -8,9 +8,14 @@ import { Prayer } from 'src/common/models/prayer.entity';
 describe('PrayersController', () => {
     let prayerController: PrayerController;
     let prayerService: PrayerService;
-    let prayer = {
+    const prayer = {
         label: 'Ore pela igreja',
         prayerRequest: 'God bless local churches'
+    }
+
+    const prayer2 = {
+        label: 'Ore por missões',
+        prayerRequest: 'God bless all the missionaries'
     }
 
     beforeAll(async () => {
@@ -47,4 +52,12 @@ describe('PrayersController', () => {
             expect(await prayerController.create(prayer as Prayer)).toStrictEqual(result);
         });
     });
+
+    describe('update', () => {
+        it('should update an existing prayer request by its ID', async () => {
+            let result: void 
+
+            expect (await prayerController.update(1, prayer2 as Prayer)).toBe(result)
+        })
+    })
 })
