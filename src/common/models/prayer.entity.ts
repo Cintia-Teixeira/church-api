@@ -9,11 +9,15 @@ export class Prayer {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @IsNotEmpty()
+    @IsNotEmpty({
+        message: 'You have to choose a label for your request'
+    })
     @Column()
     label: Purpose;
 
-    @IsNotEmpty()
+    @IsNotEmpty({
+        message: 'You have to write a prayer request'
+    })
     @Column()
     prayerRequest: string;
 }

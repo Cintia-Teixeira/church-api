@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
@@ -13,9 +13,17 @@ config();
 
 describe('Prayers', () => {
     let app: INestApplication;
-    let prayer = {
+    const prayer = {
         label: 'Ore pela igreja',
         prayerRequest: 'God bless local churches'
+    }
+
+    const prayerWithoutLabel = {
+        prayerRequest: 'God bless local churches'
+    }
+
+    const prayerWithoutRequest = {
+        label: 'Ore pela igreja'
     }
 
     beforeAll(async () => {
@@ -41,6 +49,8 @@ describe('Prayers', () => {
             .compile();
 
         app = moduleRef.createNestApplication();
+        app.useGlobalPipes(new ValidationPipe({ transform: true }));
+
         await app.init();
     });
 
@@ -60,9 +70,26 @@ describe('Prayers', () => {
             return await request(app.getHttpServer())
                 .post('/oracoes')
                 .send(prayer)
-                .expect(201)
+                .expect(201);
+        });
+
+        it('should return error if is tried to create a prayer request without label', async () => {
+            return await request(app.getHttpServer())
+                .post('/oracoes')
+                .send(prayerWithoutLabel)
+                .expect(400)
                 .expect(res => {
-                    console.log(res.body)
+                    expect(res.body.message).toContain('You have to choose a label for your request')
+                });
+        });
+
+        it('should return error if is tried to create a prayer request without the request', async () => {
+            return request(app.getHttpServer())
+                .post('/oracoes')
+                .send(prayerWithoutRequest)
+                .expect(400)
+                .expect(res => {
+                    expect(res.body.message).toContain('You have to write a prayer request')
                 });
         });
     });
