@@ -11,11 +11,15 @@ export class PrayerService {
         this.prayerRepository = connection.getRepository(Prayer);
     }
 
-    public findAll() {
+    public findAll(): Promise<Prayer[]> {
         return this.prayerRepository.find();
     }
 
-    public create(prayer: Prayer) {
-        return 'Pedido de oração criado';
+    public async create(prayer: Prayer): Promise<Prayer> {
+        const { raw: { insertId } } = await this.prayerRepository.insert(prayer);
+        return {
+            id: insertId,
+            ...prayer
+        }
     }
 }
