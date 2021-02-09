@@ -14,4 +14,8 @@ export class PrayerService {
     public findAll() {
         return this.prayerRepository.find();
     }
+
+    public create(prayer: Prayer) {
+        return 'Pedido de oração criado';
+    }
 }
