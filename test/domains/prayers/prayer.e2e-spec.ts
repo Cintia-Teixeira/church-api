@@ -63,10 +63,7 @@ describe('Prayers', () => {
         it('should return all the prayer requests', async () => {
             return await request(app.getHttpServer())
                 .get('/oracoes')
-                .expect(200)
-                .expect(res => {
-                    console.log(res.body)
-                });
+                .expect(200);
         });
     });
 
@@ -105,6 +102,27 @@ describe('Prayers', () => {
                 .put('/oracoes/1')
                 .send(prayer2)
                 .expect(200);
+        });
+
+        it('should return error if is tried to update a prayer request with an unexisting ID', async () => {
+            return request(app.getHttpServer())
+                .put('/oracoes/40')
+                .send(prayer2)
+                .expect(404);
+        });
+
+        it('should return error if is tried to update a prayer request without a label', async () => {
+            return request(app.getHttpServer())
+                .put('/oracoes/2')
+                .send(prayerWithoutLabel)
+                .expect(400);
+        });
+
+        it('should return error if is tried to update a prayer request without the request', async () => {
+            return request(app.getHttpServer())
+                .put('/oracoes/3')
+                .send(prayerWithoutRequest)
+                .expect(400);
         });
     });
 
