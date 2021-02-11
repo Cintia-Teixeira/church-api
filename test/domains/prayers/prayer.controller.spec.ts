@@ -57,7 +57,15 @@ describe('PrayersController', () => {
         it('should update an existing prayer request by its ID', async () => {
             let result: void 
 
-            expect (await prayerController.update(1, prayer2 as Prayer)).toBe(result)
-        })
-    })
+            expect (await prayerController.update(1, prayer2 as Prayer)).toBe(result);
+        });
+    });
+
+    describe('remove', () => {
+        it('should remove a prayer request by its ID', async () => {
+            let result: void
+
+            expect(await prayerController.remove(2)).toBe(result);   
+        });
+    });
 })
