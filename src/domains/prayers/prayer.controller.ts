@@ -1,5 +1,5 @@
 import { Prayer } from './../../common/models/prayer.entity';
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, NotFoundException, HttpStatus } from '@nestjs/common';
 import { PrayerService } from './prayer.service';
 
 @Controller('oracoes')
@@ -18,7 +18,13 @@ export class PrayerController {
     }
 
     @Put(':id')
-    public update(@Param('id') id: number, @Body() prayer: Prayer) {
-        return this.prayerService.update(id, prayer);
+    public async update(@Param('id') id: number, @Body() prayer: Prayer) {
+        const updated = await this.prayerService.update(id, prayer);
+        if(!updated) {
+            throw new NotFoundException({
+                status: HttpStatus.NOT_FOUND,
+                message: 'Prayer request not found.'
+            });
+        }
     }
 }

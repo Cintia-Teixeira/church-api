@@ -24,6 +24,7 @@ export class PrayerService {
     }
 
     public async update(id: number, prayer: Prayer) {
-        return 'Updated';
+        const updated = await this.prayerRepository.update(id, prayer);
+        return updated.affected;
     }
 }
