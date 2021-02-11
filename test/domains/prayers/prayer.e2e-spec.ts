@@ -126,6 +126,14 @@ describe('Prayers', () => {
         });
     });
 
+    describe('/DELETE oracoes/:id', () => {
+        it('should remove a prayer request by its ID', async () => {
+            return request(app.getHttpServer())
+                .delete('/oracoes/2')
+                .expect(200);
+        });
+    });
+
     afterAll(async () => {
         await app.close();
     });
