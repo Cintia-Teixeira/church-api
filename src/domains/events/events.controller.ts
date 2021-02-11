@@ -9,15 +9,16 @@ export class EventsController {
     constructor(private eventsService: EventsService) { }
 
     @Get()
-    public findAll() {
+    public findAll(): Promise<Event[]> {
         return this.eventsService.findAll();
     }
 
     @Post()
-    public create(@Body() event: Event) {
+    public create(@Body() event: Event): Promise<Event> {
         return this.eventsService.create(event);
     }
 
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     @Put(':id')
     public async update(@Param('id') id: number, @Body() event: Event) {
         const updated = await this.eventsService.update(id, event);
@@ -29,10 +30,11 @@ export class EventsController {
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     @Delete(':id')
-    public async delete(@Param('id') id: number) {
-        const deleted = await this.eventsService.delete(id);
-        if (!deleted) {
+    public async remove(@Param('id') id: number) {
+        const removed = await this.eventsService.remove(id);
+        if (!removed) {
             throw new NotFoundException({
                 status: HttpStatus.NOT_FOUND,
                 message: 'Event not found.'

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Injectable } from '@nestjs/common';
 import { Directorship } from '../../../src/common/models/member.entity';
 

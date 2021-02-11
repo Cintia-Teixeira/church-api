@@ -1,4 +1,5 @@
 import { Test } from '@nestjs/testing';
+
 import { GalleryService } from './../../../src/domains/gallery/gallery.service';
 import { GalleryController } from './../../../src/domains/gallery/gallery.controller';
 import { GalleryServiceMock } from '../../common/models/galleryServiceMock';
@@ -7,7 +8,7 @@ import { Image } from './../../../src/common/models/image.entity';
 describe('GalleryController', () => {
     let galleryController: GalleryController;
     let galleryService: GalleryService;
-    let img = {
+    const img = {
         path: 'test/test-uploads/image2.png'
     };
 

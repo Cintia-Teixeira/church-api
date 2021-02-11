@@ -1,6 +1,7 @@
-import { Prayer } from './../../common/models/prayer.entity';
 import { Body, Controller, Get, Param, Post, Put, NotFoundException, HttpStatus, Delete } from '@nestjs/common';
+
 import { PrayerService } from './prayer.service';
+import { Prayer } from './../../common/models/prayer.entity';
 
 @Controller('oracoes')
 export class PrayerController {
@@ -17,6 +18,7 @@ export class PrayerController {
         return this.prayerService.create(prayer);
     }
 
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     @Put(':id')
     public async update(@Param('id') id: number, @Body() prayer: Prayer) {
         const updated = await this.prayerService.update(id, prayer);
@@ -28,6 +30,7 @@ export class PrayerController {
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     @Delete(':id')
     public async remove(@Param('id') id: number) {
       const removed = await this.prayerService.remove(id);

@@ -15,7 +15,7 @@ config();
 describe('Member Area', () => {
     let app: INestApplication;
     let connection;
-    let member = {
+    const member = {
         name: 'Cintia',
         email: 'cin@email.com',
         telphone: '24999999999',
@@ -26,7 +26,7 @@ describe('Member Area', () => {
         deacon: false
     };
 
-    let member2 = {
+    const member2 = {
         name: 'Tais',
         email: 'tais@email.com',
         telphone: '24999999999',
@@ -37,7 +37,7 @@ describe('Member Area', () => {
         deacon: false
     };
 
-    let memberWithoutName = {
+    const memberWithoutName = {
         email: 'cin@email.com',
         telphone: '24999999999',
         address: 'Rua do Ouvidor, 50',
@@ -47,7 +47,7 @@ describe('Member Area', () => {
         deacon: false
     };
 
-    let memberWithoutEmployeeProp = {
+    const memberWithoutEmployeeProp = {
         name: 'Cintia',
         email: 'cin@email.com',
         telphone: '24999999999',
@@ -57,7 +57,7 @@ describe('Member Area', () => {
         deacon: false
     };
 
-    let memberWithoutDeaconProp = {
+    const memberWithoutDeaconProp = {
         name: 'Cintia',
         email: 'cin@email.com',
         telphone: '24999999999',

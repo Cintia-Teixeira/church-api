@@ -23,11 +23,13 @@ export class PrayerService {
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     public async update(id: number, prayer: Prayer) {
         const updated = await this.prayerRepository.update(id, prayer);
         return updated.affected;
     }
 
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     public async remove(id: number) {
         const removed = await this.prayerRepository.delete(id);
         return removed.affected;

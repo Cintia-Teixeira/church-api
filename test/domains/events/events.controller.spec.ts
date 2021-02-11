@@ -9,13 +9,13 @@ import { Event } from '../../../src/common/models/event.entity';
 describe('EventsController', () => {
     let eventsController: EventsController;
     let eventsService: EventsService;
-    let event = {
+    const event = {
         date: new Date('2021-01-13 08:00:00'),
         name: 'III Jornada Teológica',
         description: 'Jornada'
     }
 
-    let event2 = {
+    const event2 = {
         date: new Date('2021-05-01 10:00:00'),
         name: 'IV Jornada Teológica',
         description: 'Jornada'
@@ -68,7 +68,7 @@ describe('EventsController', () => {
         it('should remove an existing event by its ID', async () => {
             let result: void
 
-            expect(await eventsController.delete(2)).toBe(result);
+            expect(await eventsController.remove(2)).toBe(result);
         });
     });
 })

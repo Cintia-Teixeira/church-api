@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
+import { MulterModule } from '@nestjs/platform-express';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { storage } from './configStorage';
 
 import { GalleryService } from './gallery.service';
 import { GalleryController } from './gallery.controller';
-import { MulterModule } from '@nestjs/platform-express';
-import { storage } from './configStorage';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
     controllers: [GalleryController],

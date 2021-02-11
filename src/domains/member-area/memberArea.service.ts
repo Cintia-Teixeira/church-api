@@ -10,11 +10,11 @@ export class MemberAreaService {
         this.memberAreaRepository = connection.getRepository(Member);
     }
 
-    public findAll() {
+    public findAll(): Promise<Member[]> {
         return this.memberAreaRepository.find();
     }
 
-    public async create(member) {
+    public async create(member: Member): Promise<Member> {
         const { raw: { insertId } } = await this.memberAreaRepository.insert(member);
         return {
             id: insertId,
@@ -22,11 +22,13 @@ export class MemberAreaService {
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     public async update(id: number, member: Member) {
         const updated = await this.memberAreaRepository.update(id, member);
         return updated.affected;        
     }
 
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     public async remove(id: number) {
         const removed = await this.memberAreaRepository.delete(id);
         return removed.affected;

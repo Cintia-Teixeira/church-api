@@ -9,15 +9,16 @@ export class MemberAreaController {
     constructor(private memberAreaService: MemberAreaService) { }
 
     @Get()
-    public findAll() {
+    public findAll(): Promise<Member[]> {
         return this.memberAreaService.findAll()
     }
 
     @Post()
-    public create(@Body() member: Member) {
+    public create(@Body() member: Member): Promise<Member> {
         return this.memberAreaService.create(member);
     }
 
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     @Put(':id')
     public async update(@Param('id') id: number, @Body() member: Member) {
         const updated = await this.memberAreaService.update(id, member);
@@ -29,6 +30,7 @@ export class MemberAreaController {
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     @Delete(':id')
     public async remove(@Param('id') id: number) {
         const removed = await this.memberAreaService.remove(id);

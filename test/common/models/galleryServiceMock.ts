@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Image } from '../../../src/common/models/image.entity';
 
 export class GalleryServiceMock {
@@ -8,8 +9,6 @@ export class GalleryServiceMock {
         }
     ];
     private indexToInsert = 2;
-
-    constructor() { }
 
     uploadImage(img) {
         const toUpload = {

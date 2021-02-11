@@ -15,29 +15,29 @@ config();
 describe('Events', () => {
     let app: INestApplication;
     let connection;
-    let event = {
+    const event = {
         date: new Date('2021-01-13 08:00:00'),
         name: 'III Jornada Teológica',
         description: 'Jornada'
     }
 
-    let event2 = {
+    const event2 = {
         date: new Date('2021-05-10 11:00:00'),
         name: 'IV Jornada Teológica',
         description: 'Jornada'
     }
 
-    let eventWithoutDate = {
+    const eventWithoutDate = {
         name: 'IV Jornada Teológica',
         description: 'Jornada Teológica'
     }
 
-    let eventWithoutName = {
+    const eventWithoutName = {
         date: new Date('2021-10-12 9:00:00'),
         description: 'Jornada'
     }
 
-    let eventWithoutDescription = {
+    const eventWithoutDescription = {
         date: new Date('2021-07-04 12:00:00'),
         name: 'IV Jornada Teológica'
     }

@@ -1,5 +1,5 @@
-import { Repository, Connection } from 'typeorm';
 import { Injectable } from '@nestjs/common';
+import { Repository, Connection } from 'typeorm';
 
 import { Event } from './../../../src/common/models/event.entity';
 
@@ -12,11 +12,11 @@ export class EventsService {
         this.eventsRepository = connection.getRepository(Event);
     }
 
-    public findAll() {
+    public findAll(): Promise<Event[]> {
         return this.eventsRepository.find()
     }
 
-    public async create(event: Event) {
+    public async create(event: Event): Promise<Event> {
         const { raw: { insertId } } = await this.eventsRepository.insert(event);
         return {
             id: insertId,
@@ -24,13 +24,15 @@ export class EventsService {
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     public async update(id: number, event: Event) {
         const updated = await this.eventsRepository.update(id, event);
         return updated.affected;
     }
 
-    public async delete(id: number) {
-        const deleted = await this.eventsRepository.delete(id);
-        return deleted.affected;
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    public async remove(id: number) {
+        const removed = await this.eventsRepository.delete(id);
+        return removed.affected;
     }
 }

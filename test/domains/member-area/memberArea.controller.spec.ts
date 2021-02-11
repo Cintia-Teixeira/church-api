@@ -9,7 +9,7 @@ import { Directorship, Leadership, Member } from './../../../src/common/models/m
 describe('MemberAreaController', () => {
     let memberAreaController: MemberAreaController;
     let memberAreaService: MemberAreaService;
-    let member = {
+    const member = {
         name: 'Cintia', 
         email: 'cin@email.com',
         telphone: '24999999999', 
@@ -20,7 +20,7 @@ describe('MemberAreaController', () => {
         deacon: false
     };
 
-    let member2 = {
+    const member2 = {
         name: 'Tais', 
         email: 'tais@email.com',
         telphone: '24999999999', 

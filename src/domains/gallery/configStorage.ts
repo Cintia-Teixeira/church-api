@@ -3,6 +3,7 @@ import { diskStorage } from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import path = require('path');
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const storage = (configService: ConfigService) => {
     return diskStorage({
         destination: `./${configService.get<string>('UPLOAD_PATH')}`,
