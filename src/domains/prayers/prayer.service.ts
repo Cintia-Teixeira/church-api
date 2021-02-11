@@ -28,5 +28,8 @@ export class PrayerService {
         return updated.affected;
     }
 
-    public remove(id: number) {}
+    public async remove(id: number) {
+        const removed = await this.prayerRepository.delete(id);
+        return removed.affected;
+    }
 }

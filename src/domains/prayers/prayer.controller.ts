@@ -29,7 +29,13 @@ export class PrayerController {
     }
 
     @Delete(':id')
-    public remove(@Param('id') id: number) {
-        this.prayerService.remove(id);
+    public async remove(@Param('id') id: number) {
+      const removed = await this.prayerService.remove(id);
+      if(!removed) {
+          throw new NotFoundException({
+              status: HttpStatus.NOT_FOUND,
+              message: 'Prayer request not found'
+          });
+      }
     }
 }
