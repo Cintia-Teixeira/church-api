@@ -31,6 +31,10 @@ export class PrayerServiceMock {
     public update(id, prayer) {
         const toUpdate = this.prayers.findIndex(prayer => prayer.id === id);
         this.prayers[toUpdate] = { ...this.prayers[toUpdate], ...prayer }
+    }
 
+    public remove(id) {
+       const filtered = this.prayers.filter(prayer => prayer.id !== id);
+       this.prayers = filtered;       
     }
 }

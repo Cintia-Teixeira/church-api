@@ -27,4 +27,6 @@ export class PrayerService {
         const updated = await this.prayerRepository.update(id, prayer);
         return updated.affected;
     }
+
+    public remove(id: number) {}
 }

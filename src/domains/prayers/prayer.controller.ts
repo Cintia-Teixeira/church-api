@@ -1,5 +1,5 @@
 import { Prayer } from './../../common/models/prayer.entity';
-import { Body, Controller, Get, Param, Post, Put, NotFoundException, HttpStatus } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, NotFoundException, HttpStatus, Delete } from '@nestjs/common';
 import { PrayerService } from './prayer.service';
 
 @Controller('oracoes')
@@ -26,5 +26,10 @@ export class PrayerController {
                 message: 'Prayer request not found.'
             });
         }
+    }
+
+    @Delete(':id')
+    public remove(@Param('id') id: number) {
+        this.prayerService.remove(id);
     }
 }
