@@ -104,7 +104,7 @@ describe('Prayers', () => {
                 .expect(200);
         });
 
-        it('should return error if is tried to update a prayer request with an unexisting ID', async () => {
+        it('should return error if is tried to update a prayer request by an unexisting ID', async () => {
             return request(app.getHttpServer())
                 .put('/oracoes/40')
                 .send(prayer2)
@@ -129,8 +129,14 @@ describe('Prayers', () => {
     describe('/DELETE oracoes/:id', () => {
         it('should remove a prayer request by its ID', async () => {
             return request(app.getHttpServer())
-                .delete('/oracoes/2')
+                .delete('/oracoes/3')
                 .expect(200);
+        });
+
+        it('should return error if is tried to remove a prayer request by an unexisting ID', async () => {
+            return request(app.getHttpServer())
+                .delete('/oracoes/40')
+                .expect(404);
         });
     });
 
