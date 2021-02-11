@@ -7,19 +7,21 @@ import { config } from 'dotenv';
 import * as request from 'supertest';
 
 import { PrayerModule } from './../../../src/domains/prayers/prayer.module';
-import { Prayer } from './../../../src/common/models/prayer.entity';
+import { Prayer, Purpose } from './../../../src/common/models/prayer.entity';
+import { getConnection } from 'typeorm';
 
 config();
 
 describe('Prayers', () => {
     let app: INestApplication;
+    let connection;
     const prayer = {
-        label: 'Ore pela igreja',
+        label: Purpose.IG,
         prayerRequest: 'God bless local churches'
     }
 
     const prayer2 = {
-        label: 'Ore por missões',
+        label: Purpose.MS,
         prayerRequest: 'God bless all the missionaries'
     }
 
@@ -28,7 +30,7 @@ describe('Prayers', () => {
     }
 
     const prayerWithoutRequest = {
-        label: 'Ore pela igreja'
+        label: Purpose.IG
     }
 
     beforeAll(async () => {
@@ -55,8 +57,16 @@ describe('Prayers', () => {
 
         app = moduleRef.createNestApplication();
         app.useGlobalPipes(new ValidationPipe({ transform: true }));
-
         await app.init();
+        connection = getConnection();
+        await connection.createQueryRunner().clearTable('prayers');
+        const defaultPrayer = new Prayer;
+        defaultPrayer.label = Purpose.FM;
+        defaultPrayer.prayerRequest = 'God bless all families';
+        await connection.createQueryBuilder()
+            .insert().into(Prayer).values([defaultPrayer])
+            .execute();
+
     });
 
     describe('/GET oracoes', () => {
@@ -129,7 +139,7 @@ describe('Prayers', () => {
     describe('/DELETE oracoes/:id', () => {
         it('should remove a prayer request by its ID', async () => {
             return request(app.getHttpServer())
-                .delete('/oracoes/3')
+                .delete('/oracoes/2')
                 .expect(200);
         });
 
