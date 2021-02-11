@@ -18,6 +18,11 @@ describe('Prayers', () => {
         prayerRequest: 'God bless local churches'
     }
 
+    const prayer2 = {
+        label: 'Ore por missões',
+        prayerRequest: 'God bless all the missionaries'
+    }
+
     const prayerWithoutLabel = {
         prayerRequest: 'God bless local churches'
     }
@@ -91,6 +96,15 @@ describe('Prayers', () => {
                 .expect(res => {
                     expect(res.body.message).toContain('You have to write a prayer request')
                 });
+        });
+    });
+
+    describe('/PUT oracoes/:id', () => {
+        it('should update an existing prayer request by its ID', async () => {
+            return request(app.getHttpServer())
+                .put('/oracoes/1')
+                .send(prayer2)
+                .expect(200);
         });
     });
 
