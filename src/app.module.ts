@@ -4,13 +4,12 @@ import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { GalleryModule } from './domains/gallery/gallery.module';
-import { Image } from './common/models/image.entity';
 import { EventsModule } from './domains/events/events.module';
 import { MemberAreaModule } from './domains/member-area/memberArea.module';
 import { PrayerModule } from './domains/prayers/prayer.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { TransformResponseInterceptor } from './core/http/transform-response.interceptor';
 
 @Module({
   imports: [
@@ -33,11 +32,14 @@ import { PrayerModule } from './domains/prayers/prayer.module';
       username: process.env.DB_USER,
       password: process.env.DB_PASS,
       database: process.env.DB_NAME,
-      entities: [Image],
+      entities: [join(__dirname, '**', '*.entity.{ts,js}')],
       synchronize: true
     })
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [{
+    provide: APP_INTERCEPTOR,
+    useClass: TransformResponseInterceptor
+  }],
 })
 export class AppModule { }
