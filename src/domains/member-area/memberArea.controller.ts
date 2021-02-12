@@ -2,6 +2,8 @@ import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Po
 
 import { MemberAreaService } from './memberArea.service';
 import { Member } from '../../common/models/member.entity';
+import { NestResponse } from '../../core/http/nest-response';
+import { NestResponseBuilder } from '../../core/http/nest-response-builder';
 
 @Controller('area-do-membro')
 export class MemberAreaController {
@@ -14,8 +16,16 @@ export class MemberAreaController {
     }
 
     @Post()
-    public create(@Body() member: Member): Promise<Member> {
-        return this.memberAreaService.create(member);
+    public async create(@Body() member: Member): Promise<NestResponse> {
+        const created = await this.memberAreaService.create(member);
+        const memberName = created.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/ /g,"-");
+        return new NestResponseBuilder()
+            .setStatus(HttpStatus.CREATED)
+            .setHeaders({
+                'Location': `/area-do-membro/${memberName}`
+            })
+            .setBody(created)
+            .build();
     }
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
