@@ -2,6 +2,8 @@ import { Body, Controller, Get, Param, Post, Put, NotFoundException, HttpStatus,
 
 import { PrayerService } from './prayer.service';
 import { Prayer } from './../../common/models/prayer.entity';
+import { NestResponse } from '../../core/http/nest-response';
+import { NestResponseBuilder } from '../../core/http/nest-response-builder';
 
 @Controller('oracoes')
 export class PrayerController {
@@ -14,8 +16,15 @@ export class PrayerController {
     }
 
     @Post()
-    public create(@Body() prayer: Prayer): Promise<Prayer> {
-        return this.prayerService.create(prayer);
+    public async create(@Body() prayer: Prayer): Promise<NestResponse> {
+        const created = await this.prayerService.create(prayer);
+        return new NestResponseBuilder()
+            .setStatus(HttpStatus.CREATED)
+            .setHeaders({
+                'Location': `/oracoes/${created.label}`
+            })
+            .setBody(created)
+            .build();
     }
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
