@@ -50,28 +50,28 @@ describe('Gallery', () => {
             .execute();
     });
 
-    describe('/POST gallery', () => {
+    describe('/POST galeria', () => {
         it('should upload an image using file upload from nestjs ', async () => {
             return await request(app.getHttpServer())
-                .post('/gallery/upload')
+                .post('/galeria')
                 .set('Content-Type', 'multipart/form-data')
                 .attach('img', './test/uploads/image.jpg')
                 .expect(201);
         });
     });
 
-    describe('/GET gallery', () => {
+    describe('/GET galeria', () => {
         it('should display all the images', async () => {
             return await request(app.getHttpServer())
-                .get('/gallery')
+                .get('/galeria')
                 .expect(200);
         });
     });
 
-    describe('/DELETE gallery', () => {
+    describe('/DELETE galeria', () => {
         it('should remove an image', async () => {
             return await request(app.getHttpServer())
-                .delete('/gallery/2')
+                .delete('/galeria/1')
                 .expect(200);
         });
     });

@@ -25,14 +25,14 @@ describe('GalleryController', () => {
         galleryService = moduleRef.get<GalleryService>(GalleryService);
     });
 
-    describe('uploadImage', () => {
+    describe('upload', () => {
         it('should upload a new image with id 2', async () => {
             const result = {
                 id: 2,
                 ...img
             };
 
-            expect(await galleryController.uploadImage(img)).toStrictEqual(result);
+            expect(await galleryController.upload(img)).toStrictEqual(result);
         });
 
         it('should upload a new image with id 3', async () => {
@@ -41,11 +41,11 @@ describe('GalleryController', () => {
                 ...img
             };
 
-            expect(await galleryController.uploadImage(img)).toStrictEqual(result);
+            expect(await galleryController.upload(img)).toStrictEqual(result);
         });
     });
 
-    describe('listImages', () => {
+    describe('findAll', () => {
         it('should display all images', async () => {
             const result: Image[] = [
                 {
@@ -63,7 +63,7 @@ describe('GalleryController', () => {
             ];
             console.log(result);
             
-            expect(await galleryController.listImages()).toStrictEqual(result);
+            expect(await galleryController.findAll()).toStrictEqual(result);
         });
     });
 

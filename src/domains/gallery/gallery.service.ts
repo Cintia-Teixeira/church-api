@@ -11,22 +11,22 @@ export class GalleryService {
         this.imageRepository = connection.getRepository(Image);
     }
 
-    listImages(): Promise<Image[]> {
+    public findAll(): Promise<Image[]> {
         return this.imageRepository.find();
     }
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    async uploadImage(img): Promise<Image> {
+    public async upload(img): Promise<Image> {
         const { raw: { insertId } } = await this.imageRepository.insert({ path: img.virtualPath });
-
+        
         return {
             id: insertId,
-            ...img
+            path: img.virtualPath
         };
     }
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    async remove(id: number) {
+    public async remove(id: number) {
         const deleted = await this.imageRepository.delete({ id });
         return deleted.affected;
     }

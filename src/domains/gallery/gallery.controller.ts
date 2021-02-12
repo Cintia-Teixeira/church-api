@@ -12,15 +12,15 @@ export class GalleryController {
     constructor(private galleryService: GalleryService) { }
 
     @Get()
-    listImages(): Promise<Image[]> {
-        return this.galleryService.listImages();
+    public findAll(): Promise<Image[]> {
+        return this.galleryService.findAll();
     }
 
     @Post()
     @UseInterceptors(FileInterceptor('img'))
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    async uploadImage(@UploadedFile() img): Promise<NestResponse> {
-        const uploaded = await this.galleryService.uploadImage(img);
+    public async upload(@UploadedFile() img): Promise<NestResponse> {
+        const uploaded = await this.galleryService.upload(img);
         return new NestResponseBuilder()
             .setStatus(HttpStatus.CREATED)
             .setHeaders({
@@ -32,7 +32,7 @@ export class GalleryController {
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     @Delete(':id')
-    remove(@Param('id') id: number) {
+    public remove(@Param('id') id: number) {
         return this.galleryService.remove(id);
     }
 }
