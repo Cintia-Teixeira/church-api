@@ -18,8 +18,7 @@ export class GalleryController {
 
     @Post()
     @UseInterceptors(FileInterceptor('img'))
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    public async upload(@UploadedFile() img): Promise<NestResponse> {
+    public async upload(@UploadedFile() img: Express.Multer.File): Promise<NestResponse> {
         const uploaded = await this.galleryService.upload(img);
         return new NestResponseBuilder()
             .setStatus(HttpStatus.CREATED)

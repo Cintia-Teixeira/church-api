@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Connection, Repository } from 'typeorm';
+import * as fs from 'fs';
 
 import { Image } from './../../common/models/image.entity';
 
@@ -18,7 +19,7 @@ export class GalleryService {
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     public async upload(img): Promise<Image> {
         const { raw: { insertId } } = await this.imageRepository.insert({ path: img.virtualPath });
-        
+
         return {
             id: insertId,
             path: img.virtualPath
@@ -27,7 +28,10 @@ export class GalleryService {
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     public async remove(id: number) {
-        const deleted = await this.imageRepository.delete({ id });
+        const toDelete = await this.imageRepository.findOne(id);
+        const file = toDelete.path.replace('images', 'uploads')
+        fs.unlinkSync(file);
+        const deleted = await this.imageRepository.delete(id);
         return deleted.affected;
     }
 
