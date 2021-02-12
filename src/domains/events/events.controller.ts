@@ -2,6 +2,8 @@ import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Po
 
 import { EventsService } from './events.service';
 import { Event } from '../../common/models/event.entity';
+import { NestResponseBuilder } from 'src/core/http/nest-response-builder';
+import { NestResponse } from 'src/core/http/nest-response';
 
 @Controller('eventos')
 export class EventsController {
@@ -14,8 +16,16 @@ export class EventsController {
     }
 
     @Post()
-    public create(@Body() event: Event): Promise<Event> {
-        return this.eventsService.create(event);
+    public async create(@Body() event: Event): Promise<NestResponse> {
+        const created = await this.eventsService.create(event);
+        const eventName = created.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/ /g,"-");
+        return new NestResponseBuilder()
+            .setStatus(HttpStatus.CREATED)
+            .setHeaders({
+                'Location': `/eventos/${eventName}`
+            })
+            .setBody(created)
+            .build();
     }
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
